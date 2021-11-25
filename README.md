@@ -1,3 +1,6 @@
+# Proyecto_Grupo11_Equipo7
+Plataforma Sistema de Gestión de Cultivos de la empresa de cultivos Servicios Agrícolas Duque Lasso SAS 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
