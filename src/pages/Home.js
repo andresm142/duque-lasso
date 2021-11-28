@@ -8,6 +8,7 @@ function Home() {
             </div>
             <div className="col-md-9">
                 <h1>Home</h1>
+                
             </div>
         </div>
 

@@ -2,20 +2,15 @@
 // import './App.css';
 import './bootstrap.css';
 import React from 'react';
-import Login from './components/Login';
-import Cultivos from './components/Cultivos';
-import Predios from './components/Predios';
-import Profile from './components/Profile';
-import Users from './components/Users';
-import Home from './components/Home';
-import AccessDenied from './components/AccessDenied';
-import PageNotFound from './components/PageNotFound'
+import Login from './pages/Login';
+import Cultivos from './pages/Cultivos';
+import Predios from './pages/Predios';
+import Profile from './pages/Profile';
+import Users from './pages/Users';
+import Home from './pages/Home';
+import AccessDenied from './pages/AccessDenied';
+import PageNotFound from './pages/PageNotFound'
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-
-
-
-
-
 
 function App() {
   return (

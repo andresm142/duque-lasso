@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "./logo.jpeg";
 import LogoUser from "./user.png";
 import { useState } from "react";
+
 function Sidebars(props) {
     const [clase, setClase] = useState({
         home: "nav-link py-3 border-bottom",

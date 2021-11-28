@@ -18,11 +18,14 @@ Description: This Template is created for Youtubers
 
 body{
   font-family: "Open Sans";
+  
+  background-size: cover; ;
+  background-repeat: no-repeat;
 }
 
-img {
+/* img {
   max-width: 100%; 
-}
+} */
 
 a {
   text-decoration: none;
@@ -51,6 +54,7 @@ textarea {
   text-decoration: none;
   outline: none; 
 }
+
 
 .form-02-main{
   background-image: url("Fondo.jpg");
