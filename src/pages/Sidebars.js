@@ -73,42 +73,54 @@ function Sidebars(props) {
 
     }
     console.log(props.clase);
-    return (
-        <div className="d-flex flex-column flex-shrink-0 p-3 bg-light vh-100" style={{ width: "280px" }}>
-            <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src={Logo} className="" alt="Logo" width="100%" />
 
-            </a>
+
+
+    return (
+        <div className="d-flex flex-column flex-shrink-0 p-3 bg-light vh-100" style={{ width: props.sizeBar.width+"px" }}>
+            {/* <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <img src={Logo} className="" alt="Logo" width="100%" />
+            </a> */}
             <hr></hr>
             <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
                 <li className="nav-item">
                     <Link to="/home" className={clase.home}>
                         <i className="fas fa-home fa-lg mr-2"></i>
-                        <span className="d-none d-md-inline">Home</span>
+                        {props.sizeBar.width === 280 ? <span className="d-none d-md-inline">Home</span> : ""}
                     </Link>
                 </li>
                 <li className="nav-item">
                     <Link to="/cultivos" className={clase.cultivos}>
                         <i className="fas fa-seedling fa-lg mr-2"></i>
-                        <span className="d-none d-md-inline">Cultivos</span>
+                        {props.sizeBar.width === 280 ? <span className="d-none d-md-inline">Cultivos</span> : ""}
                     </Link>
                 </li>
                 <li className="nav-item">
                     <Link to="/predios" className={clase.predios}>
                         <i className="fas fa-map-marked fa-lg mr-2"></i>
-                        <span className="d-none d-md-inline">Predios</span>
+                        {props.sizeBar.width === 280 ? <span className="d-none d-md-inline">Predios</span> : ""}
                     </Link>
                 </li>
 
                 <li className="nav-item">
                     <Link to="/users" className={clase.users}>
                         <i className="fas fa-users fa-lg mr-2"></i>
-                        <span className="d-none d-md-inline">Users</span>
+                        {props.sizeBar.width === 280 ? <span className="d-none d-md-inline">Users</span> : ""}
                     </Link>
                 </li>
 
-                <li> <a href="none" className="nav-link py-3 border-bottom"> <i className="fa fa-cog"></i> <small>Precios</small> </a> </li>
-                <li> <a href="none" className="nav-link py-3 border-bottom"> <i className="fa fa-bookmark"></i> <small>Coniguracion</small> </a> </li>
+                <li> 
+                    <a href="none" className="nav-link py-3 border-bottom"> 
+                        <i className="fa fa-cog"></i> 
+                            {props.sizeBar.width === 280 ? <small>Precios</small> : ""}
+                    </a> 
+                </li>
+                <li> 
+                    <a href="none" className="nav-link py-3 border-bottom"> 
+                        <i className="fa fa-bookmark"></i> 
+                            {props.sizeBar.width === 280 ? <small>Coniguracion</small> : ""}
+                    </a> 
+                </li>
             </ul>
 
             <div className="dropdown border-top"> <a href="none" className="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
