@@ -8,7 +8,8 @@ import Home from './pages/Home';
 import Configuracion from "./pages/Configuracion";
 import AccessDenied from './pages/AccessDenied';
 import PageNotFound from './pages/PageNotFound';
-import CuadroBuscar from "./pages/components/CuadroBuscar";
+import "./pages/components/styleSearch.css";
+
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState } from "react";
 
@@ -28,7 +29,7 @@ function Sidebars(props) {
 
     const onCerrarSesion = () => {
         props.cerrarSesion(true);
-        
+
     }
 
     return (
@@ -43,7 +44,7 @@ function Sidebars(props) {
                             <i id="header-toggle" className="fas fa-bars text-white"></i>
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-3 ">
 
                         <div className="header_img">
                             <img src={Logo} alt="" />
@@ -51,13 +52,16 @@ function Sidebars(props) {
 
                     </div>
 
-                    <div className="col-3">
-                        {/*  Cuadro de busqueda */}
-                        {/* {<CuadroBuscar/>} */}   {/*  Falta corregir, provoca errores */}
-                        <div className="header_search">
+                    <div className="col-6 ">
+                        <div className="buscar d-grid">
                             <form action="">
-                                <input type="text" placeholder="Buscar..." />
-                                <button type="submit"><i className="fas fa-search"></i></button>
+
+                                <input className="search" type="text" placeholder="Buscar..." />
+                                <select className="select" id="select">
+                                    <option value="cultivos">Cultivos</option>
+                                    <option value="predios">Predios</option>
+                                </select>
+                                {/* <button type="submit"><i className="fas fa-search"></i></button> */}
                             </form>
 
                         </div>
@@ -124,11 +128,11 @@ function Sidebars(props) {
 
                         <li>
                             <div className="dropdown-item logout" onClick={onCerrarSesion}>
-                            
+
                                 Cerrar Sesión
-                                
+
                             </div>
-                            
+
                         </li>
 
                     </ul>
