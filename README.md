@@ -2,6 +2,16 @@
 
 Plataforma Sistema de Gestión de Cultivos de la empresa de cultivos Servicios Agrícolas Duque Lasso SAS 
 
+## Dependencias instaladas
+
+### react-route-dom
+Instalar con:
+npm install react-router-dom
+
+### Bootstrap
+Instalar con:
+npm install react-bootstrap bootstrap@5.1.3
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
