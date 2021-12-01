@@ -1,4 +1,4 @@
-import Logo from "./pages/logo.jpeg";
+import Logo from "./pages/logo2.png";
 import LogoUser from "./pages/user.png";
 import Cultivos from './pages/Cultivos';
 import Predios from './pages/Predios';

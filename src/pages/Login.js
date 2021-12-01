@@ -1,6 +1,6 @@
 import './style.css'
 
-import Logo from './logo.jpeg';
+import Logo from './logo.png';
 
 
 function Login(props) {

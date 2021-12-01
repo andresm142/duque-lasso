@@ -61,9 +61,12 @@ textarea {
   background-size:cover;
   background-repeat:no-repeat;
   background-position:center;
+  padding: 0 !important;
   position:relative;
   z-index:2;
   overflow:hidden;
+  width: 100.5vw;
+  height: 100vh;
 }
 
 ._lk_de{
