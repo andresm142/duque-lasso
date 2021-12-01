@@ -2,8 +2,15 @@ import './style.css'
 
 import Logo from './logo.jpeg';
 
-import { Link } from "react-router-dom";
-function Login() {
+
+function Login(props) {
+  
+  
+  const onIniciarSeccion = () => {
+    props.iniciarSeccion(true);
+  }
+  
+
   return (
     <section className="row form-02-main p-3">
 
@@ -37,9 +44,10 @@ function Login() {
 
                 <div className="form-group">
 
-                  <Link to="/home" className="_btn_04">
+                  <div className="_btn_04" onClick={onIniciarSeccion}>
+                    
                     Login
-                  </Link>
+                  </div>
                 </div>
 
 

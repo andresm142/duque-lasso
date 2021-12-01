@@ -91,7 +91,7 @@ function Sidebars(props) {
                 </li>
                 <li className="nav-item">
                     <Link to="/cultivos" className={clase.cultivos}>
-                        <i className="fas fa-seedling fa-lg mr-2"></i>
+                        <i className="fa fa-seedling fa-lg mr-2"></i>
                         {props.sizeBar.width === 280 ? <span className="d-none d-md-inline">Cultivos</span> : ""}
                     </Link>
                 </li>
