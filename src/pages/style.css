@@ -127,6 +127,9 @@ textarea {
     font-size: 16px;
     color: #fff;
 }
+.login{
+  cursor: pointer;
+}
 
 ._btn_04 a{
   font-size:15px;

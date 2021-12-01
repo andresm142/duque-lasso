@@ -6,8 +6,8 @@ import Logo from './logo.jpeg';
 function Login(props) {
   
   
-  const onIniciarSeccion = () => {
-    props.iniciarSeccion(true);
+  const onIniciarSesion = () => {
+    props.iniciarSesion(true);
   }
   
 
@@ -44,7 +44,7 @@ function Login(props) {
 
                 <div className="form-group">
 
-                  <div className="_btn_04" onClick={onIniciarSeccion}>
+                  <div className="_btn_04 login" onClick={onIniciarSesion}>
                     
                     Login
                   </div>

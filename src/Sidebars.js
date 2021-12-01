@@ -26,8 +26,8 @@ function Sidebars(props) {
     });
     const [active, setActive] = useState(false);
 
-    const onCerrarSeccion = () => {
-        props.cerrarSeccion(true);
+    const onCerrarSesion = () => {
+        props.cerrarSesion(true);
         
     }
 
@@ -117,15 +117,18 @@ function Sidebars(props) {
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
 
                         <li>
-                            <a className="dropdown-item" href="none">
-                                Profile
+                            <a className="dropdown-item" href="/profile">
+                                Perfil
                             </a>
                         </li>
 
                         <li>
-                            <div className="dropdown-item" onClick={onCerrarSeccion}>
-                                Logout
+                            <div className="dropdown-item logout" onClick={onCerrarSesion}>
+                            
+                                Cerrar Sesión
+                                
                             </div>
+                            
                         </li>
 
                     </ul>

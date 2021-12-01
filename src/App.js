@@ -12,31 +12,34 @@ function App() {
   
   const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged"));
 
-  const iniciarSeccion = function (e) {
+  const iniciarSesion = function (e) {
     if(e===true){
     setIsLogged(true);
     localStorage.setItem("isLogged", true);
     }
   }
 
-  const cerrarSeccion = function (e) {
+  const cerrarSesion = function (e) {
     if(e===true){
+    
     setIsLogged(false);
     localStorage.setItem("isLogged", false);
+    
+    
     }
   }
 
   if (isLogged) {
     return (
       <div >
-        <Sidebars cerrarSeccion={ cerrarSeccion }/>
+        <Sidebars cerrarSesion={ cerrarSesion }/>
       </div>
     );
   } else {
     return (
       <div>
 
-        <Login iniciarSeccion={iniciarSeccion} />
+        <Login iniciarSesion={iniciarSesion} />
 
       </div>);
   }
