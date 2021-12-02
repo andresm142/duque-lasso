@@ -9,39 +9,46 @@ import Sidebars from './Sidebars';
 import { useState } from "react";
 
 function App() {
-  
-  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged"));
 
+  // const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged"));
+ 
   const iniciarSesion = function (e) {
-    if(e===true){
-    setIsLogged(true);
-    localStorage.setItem("isLogged", true);
+    if (e === true) {
+      // setIsLogged(true);
+      sessionStorage.setItem("isLogged", true);
+      // localStorage.setItem("isLogged", "true");
+      window.location.href = "/";
+      
     }
   }
 
   const cerrarSesion = function (e) {
-    if(e===true){
-    
-    setIsLogged(false);
-    localStorage.setItem("isLogged", false);
-    
-    
+    if (e === true) {
+      sessionStorage.setItem("isLogged", "false");
+      // localStorage.setItem("isLogged", "false");
+      window.location.href = "/";
+      // setIsLogged(false);
+      
     }
   }
 
-  if (isLogged) {
+  // if (localStorage.getItem("isLogged")==="true") {
+  if (sessionStorage.getItem("isLogged")==="true") {
     return (
       <div >
-        <Sidebars cerrarSesion={ cerrarSesion }/>
+        
+        <Sidebars cerrarSesion={cerrarSesion} />
       </div>
     );
   } else {
-    return (
-      <div>
+    
+      return (
+        <div>
+          
+          <Login iniciarSesion={iniciarSesion} />
 
-        <Login iniciarSesion={iniciarSesion} />
-
-      </div>);
+        </div>);
+    
   }
 }
 

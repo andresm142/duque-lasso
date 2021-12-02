@@ -29,7 +29,8 @@ function Sidebars(props) {
 
     const onCerrarSesion = () => {
         props.cerrarSesion(true);
-
+        // localStorage.setItem("isLogged", "false");
+        sessionStorage.setItem("isLogged", "false");
     }
 
     return (
@@ -142,8 +143,8 @@ function Sidebars(props) {
             </div>
             {/* Container Main start */}
 
-            <div className="container-fluid height-100 bg-light">
-
+            <div className="container-fluid height-100">
+                <div style={{height:"10px"}} ></div>
                 <Router>
                     <Routes>
 

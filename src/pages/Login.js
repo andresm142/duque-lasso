@@ -8,6 +8,8 @@ function Login(props) {
   
   const onIniciarSesion = () => {
     props.iniciarSesion(true);
+    // localStorage.setItem('isLogged', "true");
+    sessionStorage.setItem('isLogged', "true");
   }
   
 
