@@ -10,6 +10,11 @@ Description: This Template is created for Youtubers
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700);
 @import url(https://fonts.googleapis.com/css?family=Arimo:300,400,400italic,700,700italic);
 /* ===================================== Basic CSS ==================================== */
+:root{
+  --color-usuario:rgb(107,223,142);
+  --color-verde:green;
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -112,7 +117,7 @@ textarea {
   box-shadow: none;
   padding: 10px 15px;
   border-radius:20px;
-  border:1px solid#2b3990;
+  border:1px solid var(--color-verde);
 }
 
 .checkbox{
@@ -124,7 +129,7 @@ textarea {
     display: inline-block;
     width: 100%;
     padding: 12px 0px;
-    background: #2b3990;
+    background: var(--color-usuario);
     border-radius: 20px;
     text-align: center;
     font-size: 16px;
