@@ -127,7 +127,7 @@ textarea {
 
 ._btn_04 {
     display: inline-block;
-    width: 200%;
+    width: 100%;
     padding: 12px 0px;
     background: var(--color-usuario);
     border-radius: 20px;
