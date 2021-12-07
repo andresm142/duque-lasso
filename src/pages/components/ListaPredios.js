@@ -1,6 +1,30 @@
 import Logo from "../logo.png";
+import { Fragment, useState } from 'react';
+import { Modal } from "react-bootstrap";
 function ListaPredios(props) {
+    const [paramModalAsignar, setParamModalAsignar] = useState({
+        titulo: "Asignación de predios",
+        mostrar: false,
+        modo: "nuevo",
+        onGuardar: null,
+        onCancelar: null,
+        proyecto: null
+
+    });
+
+    const onMostrarModalAsignar = () => {
+        const paramNuevos = { ...paramModalAsignar };
+        paramNuevos.mostrar = true;
+        setParamModalAsignar(paramNuevos);
+    }
+
+    const onCancelarModalAsignar = () => {
+        const paramNuevos = { ...paramModalAsignar };
+        paramNuevos.mostrar = false;
+        setParamModalAsignar(paramNuevos);
+    }
     return (
+        <Fragment>
         <div className="container lista_cultivos">
             <div className="row">
                 <div className="col-md-3 logo">
@@ -20,9 +44,9 @@ function ListaPredios(props) {
                 </div>
 
                 <div className="col-md-2 btn_acciones">
-                    <button className="btn btn-primary">Editar</button>
-                    <button className="btn btn-danger">Eliminar</button>
-                    <button className="btn btn-primary">Ver más</button>
+                    <button className="btn btn-primary" onClick={props.onMostrarModal}>Editar</button>
+                    <button className="btn btn-danger" >Eliminar</button>
+                    <button className="btn btn-primary" onClick={props.onMostrarModal}>Ver más</button>
 
                 </div>
             </div>
@@ -41,10 +65,21 @@ function ListaPredios(props) {
                     </div>
                 </div>
                 <div className="col-md-2 btn_asignar">
-                    <button className="btn btn-primary b_asignar">Asignar</button>
+                    <button className="btn btn-primary b_asignar" onClick={onMostrarModalAsignar}>Asignar</button>
                 </div>
             </div>
         </div>
+        {/* Modal para la asignacián de predios */}
+        <Modal show={paramModalAsignar.mostrar} onHide={onCancelarModalAsignar}>
+                <Modal.Header closeButton className="bg-primary text-white">
+                    <Modal.Title>{paramModalAsignar.titulo}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                </Modal.Body>
+
+            </Modal>
+        </Fragment>
     );
 }
 export default ListaPredios;
