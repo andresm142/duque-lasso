@@ -1,5 +1,29 @@
 import Logo from "../logo.png";
+import { Modal } from "react-bootstrap";
+import { Fragment, useState } from 'react';
 function ListaCultivos(props) {
+    const [paramModal, setParamModal] = useState({
+        titulo: "Cambiar contraseña",
+        mostrar: false,
+        modo: "nuevo",
+        onGuardar: null,
+        onCancelar: null,
+        proyecto: null
+
+    });
+
+    const onMostrarModal = () => {
+        const paramNuevos = { ...paramModal };
+        paramNuevos.mostrar = true;
+        setParamModal(paramNuevos);
+    }
+
+    const onCancelarModal = () => {
+        const paramNuevos = { ...paramModal };
+        paramNuevos.mostrar = false;
+        setParamModal(paramNuevos);
+    }
+
     return (
         <div className="container lista_cultivos">
                 <div className="row">

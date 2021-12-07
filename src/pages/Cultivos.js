@@ -1,5 +1,5 @@
 import "./components/EstilosPaginas.css";
-
+import Paginator from "./components/Paginator";
 import ListaCultivos from "./components/ListaCultivos";
 function Cultivos() {
 
@@ -16,7 +16,7 @@ function Cultivos() {
                         }}>Añadir</button>
 
                     </div>
-                </div>    
+                </div>
             </div>
             <ListaCultivos />
             <ListaCultivos />
@@ -24,7 +24,9 @@ function Cultivos() {
             <ListaCultivos />
             <ListaCultivos />
             <ListaCultivos />
-
+            <div className="d-flex justify-content-center">
+                <Paginator />
+            </div>
         </div>
 
     );
