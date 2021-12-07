@@ -9,6 +9,12 @@ import Configuracion from "./pages/Configuracion";
 import AccessDenied from './pages/AccessDenied';
 import PageNotFound from './pages/PageNotFound';
 import "./pages/components/styleSearch.css";
+import CultivosDetalles from './pages/components/CultivosDetalles';
+import CultivosAgregar from './pages/components/CultivosAgregar';
+import PrediosDetalles from './pages/components/PrediosDetalles';
+import PrediosAgregar from './pages/components/PrediosAgregar';
+import EditarPredios from "./pages/components/EditarPredios";
+import EditarCultivos from "./pages/components/EditarCultivos";
 
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState } from "react";
@@ -151,7 +157,13 @@ function Sidebars(props) {
                         <Route path="/" element={<Home />} />
                         <Route path="/home" element={<Home />} />
                         <Route path="/cultivos" element={<Cultivos />} />
+                        <Route path="/cultivos/detalles" element={<CultivosDetalles />} />
+                        <Route path="/cultivos/agregar" element={<CultivosAgregar />} />
+                        <Route path="/cultivos/editar" element={<EditarCultivos />} />
                         <Route path="/predios" element={<Predios />} />
+                        <Route path="/predios/detalles" element={<PrediosDetalles />} />
+                        <Route path="/predios/agregar" element={<PrediosAgregar />} />
+                        <Route path="/predios/editar" element={<EditarPredios />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/users" element={<Users />} />
                         <Route path="/configuracion" element={<Configuracion />} />
