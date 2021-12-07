@@ -1,0 +1,35 @@
+.container_detalles{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+.header_principal{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #00a65a;
+}
+
+.header_text{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #00a65a;
+}
+
+.detalles_cultivo{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: #00a65a 1px solid;
+}
+.circulo{
+    color: #00a65a;
+}
+
+.fila_detalles{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.precio{
+    font-weight: bold;
+    color: black;
+}

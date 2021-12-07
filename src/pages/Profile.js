@@ -32,7 +32,7 @@ function Profile() {
             <div className="container-fluid container_perfil">
                 <div className="perfil-container">
                     <div className="titulo-imagen">
-                        <h1 className="titulo">CONIGURACION DEL PERFIL</h1>
+                        <p>CONIGURACION DEL PERFIL</p>
                         <img src={Userlogo} alt="" style={{ width: "150px" }} />
                     </div>
                     <div className="perfil-container-form">
@@ -63,14 +63,14 @@ function Profile() {
 
                             </div>
                             <div className="form-group1">
-                                
+
                                 <button type="button" className="btn btn-success" onClick={onMostrarModal}>Cambiar Contraseña</button>
-                                
+
                             </div>
                             <div className="form-group-botones">
                                 <input type="submit" className="btn btn-primary" value="Guardar" />
                                 <button type="submit" className="btn btn-danger">Cancelar</button>
-                                
+
 
                             </div>
                         </form>
@@ -84,31 +84,33 @@ function Profile() {
                 </Modal.Header>
                 <Modal.Body>
                     <form>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="form-group">
-                                    <label htmlFor="txtPassActual">Contraseña actual</label>
-                                    <input type="text" className="form-control" id="txtPassActual" placeholder="Contraseña actual" />
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="txtPassActual">Contraseña actual</label>
+                                        <input type="text" className="form-control" id="txtPassActual" placeholder="Contraseña actual" />
+                                    </div>
+                                </div>
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="txtPassNuevo">Contraseña nueva</label>
+                                        <input type="text" className="form-control" id="txtPassNuevo" placeholder="Contraseña nueva" />
+                                    </div>
+                                </div>
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="txtPassNuevoConfirm">Confirmar contraseña</label>
+                                        <input type="text" className="form-control" id="txtPassNuevoConfirm" placeholder="Confirmar contraseña" />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="col-12">
-                                <div className="form-group">
-                                    <label htmlFor="txtPassNuevo">Contraseña nueva</label>
-                                    <input type="text" className="form-control" id="txtPassNuevo" placeholder="Contraseña nueva" />
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-group">
-                                    <label htmlFor="txtPassNuevoConfirm">Confirmar contraseña</label>
-                                    <input type="text" className="form-control" id="txtPassNuevoConfirm" placeholder="Confirmar contraseña" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="form-group-botones">
-                                    <input type="submit" className="btn btn-primary" value="Guardar" />
-                                    <button type="submit" className="btn btn-danger" onClick={onCancelarModal}>Cancelar</button>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="form-group-botones">
+                                        <input type="submit" className="btn btn-primary" value="Guardar" />
+                                        <button type="submit" className="btn btn-danger" onClick={onCancelarModal}>Cancelar</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
