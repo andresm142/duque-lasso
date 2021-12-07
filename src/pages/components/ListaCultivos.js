@@ -10,10 +10,12 @@ function ListaCultivos(props) {
                     </div>
                     
                     <div className="col-md-7 nombre_descripcion">
-                        <did className="nombre">Nombre del cutivo</did>
-                        <did className="descripcion">
+                        <div className="nombre">
+                            Nombre del cutivo
+                        </div>
+                        <div className="descripcion">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                        </did>
+                        </div>
                         
                     </div>
 
