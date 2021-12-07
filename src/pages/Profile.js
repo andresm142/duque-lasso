@@ -1,7 +1,20 @@
 
 import Userlogo from './user.png';
 import './components/perfil.css';
+import {useState} from 'react';
+import ModalCambiarPass from './components/ModalCambiarPass';
+
 function Profile() {
+   
+    const [modal, setModal] = useState({
+        show: false
+    });
+    const onMostrarModal = () => {
+        setModal({
+            show: true
+        });
+    }
+
     return (
         <div >
 
@@ -53,6 +66,8 @@ function Profile() {
                             <div className="form-group-botones">
                                 <input type="submit" className="btn btn-primary" value="Guardar" />
                                 <button type="submit" className="btn btn-danger">Cancelar</button>
+                                <button type="button" className="btn btn-success" onClick={onMostrarModal}>Cambiar Contraseña</button>
+                                <ModalCambiarPass show={modal.show} onClose={() => setModal({ show: false })} />
                             </div>
                         </form>
                     </div>
