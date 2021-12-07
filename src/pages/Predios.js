@@ -34,7 +34,9 @@ function Predios() {
                         Predios
                     </div>
                     <div className="col-md-2 btn_anadir">
-                        <button className="btn btn-primary" onClick={onMostrarModal}>
+                        <button className="btn btn-primary" onClick={() =>{
+                                window.location.href = "/predios/agregar";
+                            }}>
                             Añadir
                         </button>
                         {/* <button className="btn btn-primary" onClick={() => {

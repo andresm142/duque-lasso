@@ -26,7 +26,7 @@ function Cultivos() {
         paramNuevos.mostrar = false;
         setParamModal(paramNuevos);
     }
-    
+
     return (
         <Fragment>
             <div >
@@ -36,11 +36,13 @@ function Cultivos() {
                             Cultivos
                         </div>
                         <div className="col-md-2 btn_anadir">
-                            <button className="btn btn-primary" onClick={onMostrarModal}>
+                            <button className="btn btn-primary" onClick={() =>{
+                                window.location.href = "/cultivos/agregar";
+                            }}>
                                 Añadir
                             </button>
                             {/* <button className="btn btn-primary" onClick={() => {
-                            this.props.history.push('/cultivos/nuevo')
+                            this.props.history.push('/cultivos/agregar');
                         }}>Añadir</button> */}
 
                         </div>

@@ -23,6 +23,14 @@ function ListaPredios(props) {
         paramNuevos.mostrar = false;
         setParamModalAsignar(paramNuevos);
     }
+
+    const onDetalles =()=>{
+        window.location.href = "/predios/detalles?id=1";
+    }
+    const onEditar =()=>{
+        window.location.href = "/predios/editar?id=1";
+    }
+
     return (
         <Fragment>
         <div className="container lista_cultivos">
@@ -44,9 +52,9 @@ function ListaPredios(props) {
                 </div>
 
                 <div className="col-md-2 btn_acciones">
-                    <button className="btn btn-primary" onClick={props.onMostrarModal}>Editar</button>
+                    <button className="btn btn-primary" onClick={onEditar}>Editar</button>
                     <button className="btn btn-danger" >Eliminar</button>
-                    <button className="btn btn-primary" onClick={props.onMostrarModal}>Ver más</button>
+                    <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
 
                 </div>
             </div>

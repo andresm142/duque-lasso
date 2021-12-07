@@ -2,7 +2,12 @@ import Logo from "../logo.png";
 import { Modal } from "react-bootstrap";
 import { Fragment, useState } from 'react';
 function ListaCultivos(props) {
-
+    const onDetalles =()=>{
+        window.location.href = "/cultivos/detalles?id=1";
+    }
+    const onEditar =()=>{
+        window.location.href = "/cultivos/editar?id=1";
+    }
     return (
         <Fragment>
             <div className="container lista_cultivos">
@@ -24,10 +29,11 @@ function ListaCultivos(props) {
                     </div>
 
                     <div className="col-md-2 btn_acciones">
-                        <button className="btn btn-primary" onClick={props.onMostrarModal}>Editar</button>
-                        <button className="btn btn-danger">Eliminar</button>
-                        <button className="btn btn-primary" onClick={props.onMostrarModal}>Ver más</button>
-
+                        <button className="btn btn-primary"onClick={onEditar}>Editar</button>
+                        <button className="btn btn-danger" >Eliminar</button>
+                        <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
+                        {/* Boton para ir a la pagina cultivosDetalles */}
+                        
                     </div>
                 </div>
             </div>
