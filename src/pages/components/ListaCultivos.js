@@ -8,6 +8,10 @@ function ListaCultivos(props) {
     const onEditar =()=>{
         window.location.href = "/cultivos/editar?id=1";
     }
+    const onEliminar =()=>{
+        // window.location.href = "/cultivos/eliminar?id=1";
+        alert("Eliminado");
+    }
     return (
         <Fragment>
             <div className="container lista_cultivos">
@@ -30,7 +34,7 @@ function ListaCultivos(props) {
 
                     <div className="col-md-2 btn_acciones">
                         <button className="btn btn-primary"onClick={onEditar}>Editar</button>
-                        <button className="btn btn-danger" >Eliminar</button>
+                        <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
                         <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
                         {/* Boton para ir a la pagina cultivosDetalles */}
                         

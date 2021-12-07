@@ -1,4 +1,4 @@
-import "./Detalles.css";
+import "./CultivosDetalles.css";
 import Logo from "../logo.png";
 function CultivosDetalles() {
     return (

@@ -158,11 +158,11 @@ function Sidebars(props) {
                         <Route path="/home" element={<Home />} />
                         <Route path="/cultivos" element={<Cultivos />} />
                         <Route path="/cultivos/detalles" element={<CultivosDetalles />} />
-                        <Route path="/cultivos/agregar" element={<CultivosAgregar />} />
+                        <Route path="/cultivos/agregar" element={<EditarCultivos />} />
                         <Route path="/cultivos/editar" element={<EditarCultivos />} />
                         <Route path="/predios" element={<Predios />} />
                         <Route path="/predios/detalles" element={<PrediosDetalles />} />
-                        <Route path="/predios/agregar" element={<PrediosAgregar />} />
+                        <Route path="/predios/agregar" element={<EditarPredios />} />
                         <Route path="/predios/editar" element={<EditarPredios />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/users" element={<Users />} />
