@@ -1,3 +1,4 @@
+import { queries } from "@testing-library/react";
 import "./PredioDetalles.css";
 function EditarPredios() {
     const onCancelar = () => {
@@ -7,6 +8,9 @@ function EditarPredios() {
         window.history.back();
         alert("Cultivo guardado");
     };
+    
+    const modo = window.location.pathname.split("/")[2];
+    
 
     return (
         <div className="container">

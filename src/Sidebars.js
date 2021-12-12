@@ -10,13 +10,13 @@ import AccessDenied from './pages/AccessDenied';
 import PageNotFound from './pages/PageNotFound';
 import "./pages/components/styleSearch.css";
 import CultivosDetalles from './pages/components/CultivosDetalles';
-import CultivosAgregar from './pages/components/CultivosAgregar';
+// import CultivosAgregar from './pages/components/CultivosAgregar';
 import PrediosDetalles from './pages/components/PrediosDetalles';
-import PrediosAgregar from './pages/components/PrediosAgregar';
+// import PrediosAgregar from './pages/components/PrediosAgregar';
 import EditarPredios from "./pages/components/EditarPredios";
 import EditarCultivos from "./pages/components/EditarCultivos";
 
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState } from "react";
 
 

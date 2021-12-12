@@ -1,5 +1,5 @@
 import UserLogo from "../user.png"
-function ListaUsuarios() {
+function ListaUsuarios(props) {
     return (
         <div>
             <div className="container header_detalles">
@@ -9,17 +9,17 @@ function ListaUsuarios() {
                     </div>
                     <div className="col-md-2 detalles">
                         <div className="titulo_nombre_detalles">
-                        Lorem ipsum
+                        {props.nombre} {props.apellido}
                         </div>
                     </div>
                     <div className="col-md-2 detalles">
                         <div className="titulo_nombre_detalles">
-                            Usuario final
+                            {props.rol}
                         </div>
                     </div>
                     <div className="col-md-4 detalles">
                         <div className="titulo_nombre_detalles">
-                            Correo@loremipsum.com
+                            {props.email}
                         </div>
                     </div>
                     <div className="col-md-2 btns_acciones">

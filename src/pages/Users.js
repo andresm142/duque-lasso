@@ -1,7 +1,74 @@
+import axios from "axios";
 import "./components/EstilosPaginas.css";
 import ListaUsuarios from "./components/ListaUsuarios";
+import { useEffect, useState } from 'react';
+
+
 
 function Users() {
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [showLoading, setShowLoading] = useState(true);
+
+  const limit = 1;
+
+  const body = {
+    page: page,
+    limit: limit
+  };
+  const token = JSON.parse(localStorage.getItem('token'));
+  const api_url = "http://localhost:9000/users/all?" +
+    limit + "&" +
+    "offset=" + ((page-1) * limit);
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${token.token}`
+    }
+  };
+  console.log(headers);
+  const obtenerUsuarios = async () => {
+    try {
+      await axios.get(api_url, headers)
+
+        .then(res => {
+          console.log(res.data);
+          setUsuarios(res.data);
+          setTotalElements(res.data.totalElements);
+          setShowLoading(false);
+        })
+        .catch(error => {
+          if (error.response) {
+
+            alert(error.response.data.message);
+          } else {
+            alert("Error, contacte con el administrador");
+          }
+
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  };
+  const [usuarios, setUsuarios] = useState([]);
+  useEffect(() => {
+    obtenerUsuarios();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+
+  const listaUsuarios = usuarios.map(user => (
+
+    <ListaUsuarios
+      key={user.id}
+      {...user}
+    />
+  )
+  );
+
+  // usuarios1();
+
   return (
     <div>
       <div className="container container_header">
@@ -42,18 +109,8 @@ function Users() {
           </div>
         </div>
       </div>
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
-      <ListaUsuarios />
+      {listaUsuarios}
+
     </div>
 
   );
