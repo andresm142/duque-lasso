@@ -3,7 +3,9 @@ import { Modal } from "react-bootstrap";
 import { Fragment, useState } from 'react';
 function ListaCultivos(props) {
     const onDetalles =()=>{
+        
         window.location.href = "/cultivos/detalles?id=1";
+        
     }
     const onEditar =()=>{
         window.location.href = "/cultivos/editar?id=1";

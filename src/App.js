@@ -5,51 +5,55 @@ import React from 'react';
 import Login from './pages/Login';
 
 import Sidebars from './Sidebars';
+import useToken from './pages/components/useToken';
 
-import { useState } from "react";
+// import { useState } from "react";
 
 function App() {
-
-  // const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged"));
+  // const [user, setUser] = useState(null);
+  const { token, setToken } = useToken();
  
-  const iniciarSesion = function (e) {
-    if (e === true) {
-      // setIsLogged(true);
-      sessionStorage.setItem("isLogged", true);
-      // localStorage.setItem("isLogged", "true");
-      window.location.href = "/";
-      
-    }
+
+  // const [isLogged, setIsLogged] = useState(sessionStorage.getItem("isLogged"));
+
+  if (!token) {
+    
+    return <Login setToken={setToken} />
   }
+
+
+  // const iniciarSesion = function (e) {
+  //   if (e === true) {
+  //     // setIsLogged(true);
+  //     // window.location.pathname = "/login";
+  //     // e.history.push("/login");
+  //     sessionStorage.setItem("isLogged", true);
+  //     // localStorage.setItem("isLogged", "true");
+  //     // borrar path de la url
+
+  //   }
+  // }
 
   const cerrarSesion = function (e) {
     if (e === true) {
       sessionStorage.setItem("isLogged", "false");
+      localStorage.clear();
       // localStorage.setItem("isLogged", "false");
       window.location.href = "/";
       // setIsLogged(false);
-      
+
     }
   }
 
-  // if (localStorage.getItem("isLogged")==="true") {
-  if (sessionStorage.getItem("isLogged")==="true") {
-    return (
-      <div >
-        
-        <Sidebars cerrarSesion={cerrarSesion} />
-      </div>
-    );
-  } else {
-    
-      return (
-        <div>
-          
-          <Login iniciarSesion={iniciarSesion} />
+  return (
+    <div >
 
-        </div>);
-    
-  }
+      <Sidebars cerrarSesion={cerrarSesion} />
+    </div>
+  );
+
+
+
 }
 
 
