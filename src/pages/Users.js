@@ -5,10 +5,29 @@ import { Fragment, useEffect, useState } from 'react';
 import { Modal } from "react-bootstrap";
 import Paginator from "./components/Paginator";
 import FormNewUser from "./components/FormNewUser";
+import BasicPagination from "./components/Pagination";
 
 
 function Users() {
   
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [showLoading, setShowLoading] = useState(true);
+
+  const limit = 10;
+
+  const token = JSON.parse(localStorage.getItem('token'));
+  const api_url = "http://localhost:9000/users/all?page=" +
+    page +
+    "&limit=" +
+    limit;
+
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${token.token}`
+    }
+  };
+
   const [paramModal, setParamModal] = useState({
     titulo: "",
     mostrar: false,
@@ -146,23 +165,7 @@ function Users() {
     setParamModal(paramNuevos);
   }
 
-  const [page, setPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(0);
-  const [showLoading, setShowLoading] = useState(true);
 
-  const limit = 1;
-
-  const token = JSON.parse(localStorage.getItem('token'));
-  const api_url = "http://localhost:9000/users/all?page=" +
-    page +
-    "&limit=" +
-    limit;
-
-  const headers = {
-    headers: {
-      Authorization: `Bearer ${token.token}`
-    }
-  };
 
   const obtenerUsuarios = async () => {
     try {
@@ -170,7 +173,7 @@ function Users() {
 
         .then(res => {
 
-          setUsuarios(res.data);
+          setUsuarios(res.data.usuarios);
           setTotalElements(res.data.totalElements);
           setShowLoading(false);
         })
@@ -208,6 +211,10 @@ function Users() {
     />
   )
   );
+  const handlePageClick = (e) => {
+    setPage(e);
+    console.log(e);
+  }
 
   return (
     <Fragment>
@@ -248,8 +255,9 @@ function Users() {
         </div>
       </div>
       {listaUsuarios}
-      <div className="d-flex justify-content-center">
-        <Paginator />
+      <div className="d-flex justify-content-center mt-2 ">
+        {/* <Paginator /> */}
+        <BasicPagination itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
       </div>
       <Modal show={paramModal.mostrar} onHide={onCancelarModal}>
         <Modal.Header closeButton className="bg-primary text-white">
