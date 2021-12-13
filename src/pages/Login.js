@@ -7,9 +7,10 @@ import Logo from './logo.png';
 import axios from 'axios';
 
 function Login(props) {
+    
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-
+    const [mensajeError, setMensajeError] = useState("");
      const handleSubmit = async (event) => {
 
         event.preventDefault();
@@ -29,7 +30,13 @@ function Login(props) {
                 return data;
             })
             .catch(error => {
-                console.log(error);
+                if (error.response) {
+                    setMensajeError(error.response.data.message);
+                    
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
+                
             });
         
     }
@@ -62,26 +69,26 @@ function Login(props) {
                             <form onSubmit={handleSubmit} className="form-03-main">
 
                                 <h2>Bienvenido</h2>
-                                <div className="form-group">
+                                <div className="form-group pt-5">
                                     <input type="email" name="email" className="form-control _ge_de_ol"
                                         placeholder="Enter Email" required="" aria-required="true"
                                         onChange={handleChange}
                                     />
                                 </div>
 
-                                <div className="form-group">
+                                <div className="form-group pt-5">
                                     <input type="password" name="password" className="form-control _ge_de_ol"
                                         placeholder="Enter Password" required="" aria-required="true"
                                         onChange={handleChange}
                                     />
                                 </div>
-
+                                {mensajeError? <h5 className='text-danger'>{mensajeError}</h5>:null}
                                 <div className="checkbox form-group">
 
                                     <a href="none">¿Olvidaste tu contraseña?</a>
                                 </div>
-
-                                <div className="form-group">
+                                
+                                <div className="form-group pt-5">
                                     <button type="submit" className="_btn_04 login border-0" >Iniciar Sesión</button>
 
                                 </div>

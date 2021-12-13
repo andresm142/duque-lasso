@@ -82,7 +82,7 @@ function Profile() {
                         alert("Error, contacte con el administrador");
                     }
 
-                    console.log("este",error);
+                    
                 });
 
         } else {
