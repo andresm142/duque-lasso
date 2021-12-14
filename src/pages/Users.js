@@ -2,14 +2,13 @@ import axios from "axios";
 import "./components/EstilosPaginas.css";
 import ListaUsuarios from "./components/ListaUsuarios";
 import { Fragment, useEffect, useState } from 'react';
-import { Modal } from "react-bootstrap";
-import Paginator from "./components/Paginator";
+import { Modal, Spinner } from "react-bootstrap";
 import FormNewUser from "./components/FormNewUser";
-import BasicPagination from "./components/Pagination";
+import Paginacion from "./components/Pagination";
 
 
 function Users() {
-  
+
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [showLoading, setShowLoading] = useState(true);
@@ -22,12 +21,6 @@ function Users() {
     "&limit=" +
     limit;
 
-  const headers = {
-    headers: {
-      Authorization: `Bearer ${token.token}`
-    }
-  };
-
   const [paramModal, setParamModal] = useState({
     titulo: "",
     mostrar: false,
@@ -38,11 +31,16 @@ function Users() {
 
   });
 
-  const onGuardarUsusario = (usuario,modo) => {
+  const onGuardarUsusario = (usuario, modo) => {
     console.log(modo);
     console.log(usuario);
     if (modo === "nuevo") {
-      axios.post("http://localhost:9000/users/new", usuario)
+      axios.post("http://localhost:9000/users/new", usuario,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token.token
+          }
+        })
 
         .then(res => {
           console.log(res);
@@ -59,7 +57,7 @@ function Users() {
             rol: usuario.rol
           };
           setUsuarios([...usuarios, nuevoUsuario]);
-          
+
         })
         .catch(err => {
           if (err.response) {
@@ -71,8 +69,8 @@ function Users() {
           console.log(err);
 
         });
-      
-     
+
+
     };
     if (modo === "editar") {
       axios.put(`http://localhost:9000/users/edit/${usuario._id}`, usuario,
@@ -82,7 +80,7 @@ function Users() {
           }
         })
         .then(res => {
-          
+
           alert("Usuario editado");
           // rerenderizar la lista de usuarios
           setUsuarios(usuarios.map(u => u._id === usuario._id ? usuario : u));
@@ -109,7 +107,7 @@ function Users() {
     paramNuevos.titulo = "Agregar Usuario";
     paramNuevos.onGuardar = onGuardarUsusario;
     setParamModal(paramNuevos);
-    
+
   }
 
   const onEditarUsuario = (usuario) => {
@@ -120,7 +118,7 @@ function Users() {
     paramNuevos.onGuardar = onGuardarUsusario;
     paramNuevos.usuario = usuario;
     setParamModal(paramNuevos);
-        
+
   }
 
 
@@ -156,20 +154,25 @@ function Users() {
 
         });
     }
-    
+
   }
-  
+
   const onCancelarModal = () => {
     const paramNuevos = { ...paramModal };
     paramNuevos.mostrar = false;
     setParamModal(paramNuevos);
   }
 
+  const [usuarios, setUsuarios] = useState([]);
 
-
-  const obtenerUsuarios = async () => {
+  useEffect(() => {
+    setShowLoading(true);
     try {
-      await axios.get(api_url, headers)
+      axios.get(api_url, {
+        headers: {
+          Authorization: 'Bearer ' + token.token
+        }
+      })
 
         .then(res => {
 
@@ -190,14 +193,7 @@ function Users() {
       console.log(error);
     }
 
-
-  };
-  const [usuarios, setUsuarios] = useState([]);
-  
-  useEffect(() => {
-    obtenerUsuarios();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [api_url, token.token]);
 
 
   const listaUsuarios = usuarios.map(user => (
@@ -213,7 +209,6 @@ function Users() {
   );
   const handlePageClick = (e) => {
     setPage(e);
-    console.log(e);
   }
 
   return (
@@ -254,10 +249,11 @@ function Users() {
           </div>
         </div>
       </div>
-      {listaUsuarios}
+      {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> : listaUsuarios}
+
       <div className="d-flex justify-content-center mt-2 ">
         {/* <Paginator /> */}
-        <BasicPagination itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
+        <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
       </div>
       <Modal show={paramModal.mostrar} onHide={onCancelarModal}>
         <Modal.Header closeButton className="bg-primary text-white">

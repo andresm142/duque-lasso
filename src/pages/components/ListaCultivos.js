@@ -1,18 +1,40 @@
 import Logo from "../logo.png";
 import { Modal } from "react-bootstrap";
 import { Fragment, useState } from 'react';
-function ListaCultivos(props) {
+import axios from 'axios';
+
+const url='http://localhost:9000/cultivos/';
+const token = JSON.parse(localStorage.getItem('token'));
+
+function ListaCultivos({onMostrarModal,...props}) {
     const onDetalles =()=>{
         
-        window.location.href = "/cultivos/detalles?id=1";
+        window.location.href = "/cultivos/detalles?id="+props._id;
         
     }
     const onEditar =()=>{
-        window.location.href = "/cultivos/editar?id=1";
+        window.location.href = "/cultivos/edit?id="+props._id;
     }
     const onEliminar =()=>{
+        if (window.confirm("¿Esta seguro de eliminar este cultivo?")) {
+            axios.delete(url+'delete/'+props._id,
+            {
+                headers: {
+                    Authorization: `Bearer ${token.token}`
+                }
+            })
+            .then(res => {
+                alert("Eliminado");
+                window.location.reload();
+            })
+            .catch(err => {
+                alert("Error, contacte con el administrador");
+                console.log(err);
+            });
+        }
+
         // window.location.href = "/cultivos/eliminar?id=1";
-        alert("Eliminado");
+        
     }
     return (
         <Fragment>
@@ -26,10 +48,11 @@ function ListaCultivos(props) {
 
                     <div className="col-md-7 nombre_descripcion">
                         <div className="nombre">
-                            Nombre del cutivo
+                            {props.nombre}
                         </div>
                         <div className="descripcion">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            {props.descripcion}
+                            {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. */}
                         </div>
 
                     </div>
