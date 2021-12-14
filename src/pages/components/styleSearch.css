@@ -17,7 +17,7 @@
 }
 
 .buscar {
-    display: grid;
+    display: flex;
     flex-direction: row-reverse;
     justify-items: end;
     
@@ -54,7 +54,8 @@
 }
 
 .select{
-    background-color: var(--color-verde);
+    /* background-color: var(--color-verde); */
+    background-color: var(--color-usuario);
     border-radius: var(--boder-inputs);
     
 }

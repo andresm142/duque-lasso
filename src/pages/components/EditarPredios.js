@@ -1,5 +1,7 @@
 import { queries } from "@testing-library/react";
 import "./PredioDetalles.css";
+import AutocompletarCultivos from "./AutocompleteCultivo";
+
 function EditarPredios() {
     const onCancelar = () => {
         window.history.back();
@@ -110,8 +112,8 @@ function EditarPredios() {
                 <label htmlFor="nombre_cultivo" className="header_text_label m-2 mt-2">Cultivo</label>
                 <div className="row m-2">
                     <div className="col-md-8">
-
-                        <div className="header_text d-flex row">
+                        <AutocompletarCultivos />
+                        {/* <div className="header_text d-flex row">
 
                             <select id="nombre_cultivo" className="header_text_input" style={{ width: "100%" }}>
                                 <option value="">Seleccione un cultivo</option>
@@ -120,7 +122,7 @@ function EditarPredios() {
                                 <option value="">Cultivo 3</option>
                             </select>
 
-                        </div>
+                        </div> */}
                     </div>
                     <div className="col-md-4">
                         {/* boton asignar */}
@@ -131,6 +133,7 @@ function EditarPredios() {
                         </div>
                     </div>
                 </div>
+                
                 {/* botones de accion */}
                 <div className="row m-2">
                     <div className="col-md-12 mt-2 d-flex gap-3 justify-content-end">

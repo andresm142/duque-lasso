@@ -15,9 +15,11 @@ import PrediosDetalles from './pages/components/PrediosDetalles';
 // import PrediosAgregar from './pages/components/PrediosAgregar';
 import EditarPredios from "./pages/components/EditarPredios";
 import EditarCultivos from "./pages/components/EditarCultivos";
+import AutocompleteSearch from "./pages/components/AutocompleteSearch";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState } from "react";
+import { style } from "@mui/system";
 
 
 function Sidebars(props) {
@@ -59,16 +61,22 @@ function Sidebars(props) {
 
                     </div>
 
-                    <div className="col-6 ">
-                        <div className="buscar d-grid">
-                            <form action="">
+                    <div className="col-6 d-flex align-items-center">
+                        <div className="col-4"></div>
+                        <div className="col-6">
+                            <AutocompleteSearch />
+                        </div>
+                        <div className="col-2">
 
-                                <input className="search" type="text" placeholder="Buscar..." />
-                                <select className="select" id="select">
+                            <form action="" className="buscar">
+
+                                {/* <input className="search" type="text" placeholder="Buscar..." /> */}
+                                <select className="select " id="select">
                                     <option value="cultivos">Cultivos</option>
                                     <option value="predios">Predios</option>
                                 </select>
-                                {/* <button type="submit"><i className="fas fa-search"></i></button> */}
+                                <button type="submit" style={{backgroundColor:"transparent",border:"none", padding:"5px"}} ><i className="fas fa-search" ></i></button>
+
                             </form>
 
                         </div>
@@ -150,7 +158,7 @@ function Sidebars(props) {
             {/* Container Main start */}
 
             <div className="container-fluid height-100">
-                <div style={{height:"10px"}} ></div>
+                <div style={{ height: "10px" }} ></div>
                 <Router>
                     <Routes>
 
