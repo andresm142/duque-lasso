@@ -11,6 +11,11 @@ npm install react-router-dom
 ### Bootstrap
 Instalar con:
 npm install react-bootstrap bootstrap@5.1.3
+npm install @mui/material @emotion/react @emotion/styled --save
+npm install react-paginate --save
+npm i cors --save
+npm i react-scripts --save
+npm i -S validator
 
 ## Getting Started with Create React App
 
