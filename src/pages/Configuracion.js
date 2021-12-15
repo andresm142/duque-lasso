@@ -1,14 +1,18 @@
+import { Fragment } from 'react';
 function Configuracion() {
 
-    
+
 
     return (
-        <div >
-                      
-                <h1>Coniguracion</h1>
-              
-        </div>
+        <Fragment>
+            <div className="container container_detalles">
 
+                <div className="text-center header_principal">
+                    <h1 style={{color:"var(--color-usuario)", fontWeight: "bold"}}>CONIGURACIÓN</h1>
+                </div>
+                
+            </div>
+        </Fragment>
     );
 }
 export default Configuracion;

@@ -35,6 +35,12 @@ function Cultivos() {
                 setShowLoading(false);
             })
             .catch(err => {
+                if (err.response) {
+
+                    alert(err.response.data.message);
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
                 console.log(err);
             });
     }, [page, token.token]);
@@ -101,8 +107,8 @@ function Cultivos() {
                         </div>
                     </div>
                 </div>
-                {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> : 
-                listaCultivos?.length > 0 ? listaCultivos: <div className="col-sm-12 text-center">No hay cultivos registrados</div>}
+                {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
+                    listaCultivos?.length > 0 ? listaCultivos : <div className="col-sm-12 text-center">No hay cultivos registrados</div>}
 
 
                 <div className="d-flex justify-content-center mt-2">

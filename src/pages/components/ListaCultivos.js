@@ -28,8 +28,12 @@ function ListaCultivos({onMostrarModal,...props}) {
                 window.location.reload();
             })
             .catch(err => {
-                alert("Error, contacte con el administrador");
-                console.log(err);
+                if (err.response) {
+
+                    alert(err.response.data.message);
+                  } else {
+                    alert("Error, contacte con el administrador");
+                  }
             });
         }
 

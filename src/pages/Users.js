@@ -7,6 +7,7 @@ import FormNewUser from "./components/FormNewUser";
 import Paginacion from "./components/Pagination";
 
 
+
 function Users() {
 
   const [page, setPage] = useState(1);
@@ -166,6 +167,17 @@ function Users() {
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
+    sessionStorage.setItem("paginaActiva",JSON.stringify({
+      home: "nav_link text-white",
+      cultivos: "nav_link text-white",
+      predios: "nav_link text-white",
+      users: "nav_link text-white",
+      profile: "nav_link active text-white",
+      coniguracion: "nav_link text-white",
+      accessDenied: "nav_link text-white",
+      pageNotFound: "nav_link text-white"
+    }));
+    
     setShowLoading(true);
     try {
       axios.get(api_url, {
@@ -195,7 +207,11 @@ function Users() {
 
   }, [api_url, token.token]);
 
+//   const paginaActual= sessionStorage.getItem("paginaActiva");
+// console.log(paginaActual);
+  
 
+  
   const listaUsuarios = usuarios.map(user => (
 
     <ListaUsuarios

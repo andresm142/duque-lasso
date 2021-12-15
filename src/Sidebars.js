@@ -24,14 +24,14 @@ import { style } from "@mui/system";
 
 function Sidebars(props) {
     const [clase, setClase] = useState({
-        home: "nav_link text-white",
+        home: "nav_link active text-white",
         cultivos: "nav_link text-white",
         predios: "nav_link text-white",
         users: "nav_link text-white",
-        profile: "",
-        login: "",
-        accessDenied: "",
-        pageNotFound: ""
+        profile: "nav_link text-white",
+        coniguracion: "nav_link text-white",
+        accessDenied: "nav_link text-white",
+        pageNotFound: "nav_link text-white"
     });
     const [active, setActive] = useState(false);
 
