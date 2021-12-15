@@ -3,6 +3,7 @@ import "./components/EstilosPaginas.css";
 import { Modal } from "react-bootstrap";
 import { Fragment, useState } from 'react';
 import Paginator from "./components/Paginator";
+import BASE_URL from "../services/.config";
 
 function Predios() {
     const [paramModal, setParamModal] = useState({
@@ -14,6 +15,17 @@ function Predios() {
         proyecto: null
 
     });
+
+    sessionStorage.setItem("paginaActiva", JSON.stringify({
+        home: "nav_link text-white",
+        cultivos: "nav_link text-white",
+        predios: "nav_link active text-white",
+        users: "nav_link text-white",
+        profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
+        coniguracion: "nav_link text-white",
+        accessDenied: "nav_link text-white",
+        pageNotFound: "nav_link text-white"
+    }))
 
     const onMostrarModal = () => {
         const paramNuevos = { ...paramModal };

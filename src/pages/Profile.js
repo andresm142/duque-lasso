@@ -1,8 +1,9 @@
 import { Modal } from "react-bootstrap";
 import Userlogo from './user.png';
 import './components/perfil.css';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
+import BASE_URL from "../services/.config";
 
 function Profile() {
     const [paramModal, setParamModal] = useState({
@@ -23,6 +24,19 @@ function Profile() {
     });
 
     const [datosPerfil, setDatosPeril] = useState(JSON.parse(localStorage.getItem('datosUser')));
+
+    useEffect(() => {
+        sessionStorage.setItem("paginaActiva", JSON.stringify({
+            home: "nav_link text-white",
+            cultivos: "nav_link text-white",
+            predios: "nav_link text-white",
+            users: "nav_link text-white",
+            profile: "nav_link active nav-link dropdown-toggle ml-1 d-flex text-white",
+            coniguracion: "nav_link text-white",
+            accessDenied: "nav_link text-white",
+            pageNotFound: "nav_link text-white"
+          }))
+        }, []);
 
     const onMostrarModal = () => {
         const paramNuevos = { ...paramModal };
@@ -57,7 +71,7 @@ function Profile() {
             
         };
         if (pass.passNuevo === pass.passConfirmar) {
-            const url = 'http://localhost:9000/users/cambiarPass';
+            const url = BASE_URL+ 'users/cambiarPass';
             
             await axios.post(url, body,{
                 headers: {
@@ -105,13 +119,13 @@ function Profile() {
                                 <div className="form-group2">
                                     <label htmlFor="nombre_usuario">Nombre</label>
                                     <input type="text" className="form-control" id="nombre_usuario"
-                                        name="nombre" value={datosPerfil.nombre} />
+                                        name="nombre" readOnly value={datosPerfil.nombre} />
 
                                 </div>
                                 <div className="form-group2">
                                     <label htmlFor="apellido_usuario">Apellido</label>
                                     <input type="text" className="form-control" id="apellido_usuario"
-                                        name="apellido" value={datosPerfil.apellido} />
+                                        name="apellido" readOnly  value={datosPerfil.apellido} />
 
                                 </div>
                             </div>
@@ -119,13 +133,13 @@ function Profile() {
                                 <div className="form-group2">
                                     <label htmlFor="correo_usuario">Correo</label>
                                     <input type="email" className="form-control" id="correo_usuario"
-                                        name="email" value={datosPerfil.email} />
+                                        name="email" readOnly value={datosPerfil.email} />
 
                                 </div>
                                 <div className="form-group2">
                                     <label htmlFor="telefono_usuario">Telefono</label>
                                     <input type="number" className="form-control" id="telefono_usuario"
-                                        name="telefono" value={datosPerfil.telefono} />
+                                        name="telefono" readOnly value={datosPerfil.telefono} />
                                 </div>
 
                             </div>

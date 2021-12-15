@@ -2,8 +2,9 @@ import Logo from "../logo.png";
 import { Modal } from "react-bootstrap";
 import { Fragment, useState } from 'react';
 import axios from 'axios';
+import BASE_URL from "../../services/.config";
 
-const url='http://localhost:9000/cultivos/';
+const url=BASE_URL+'cultivos/';
 const token = JSON.parse(localStorage.getItem('token'));
 
 function ListaCultivos({onMostrarModal,...props}) {

@@ -3,8 +3,9 @@ import Logo from "../logo.png";
 import axios from 'axios';
 import { useState, useEffect, Fragment } from "react";
 import { Spinner } from "react-bootstrap";
+import BASE_URL from "../../services/.config";
 
-const url = "http://localhost:9000/";
+
 const token = JSON.parse(localStorage.getItem('token'));
 
 function CultivosDetalles() {
@@ -29,7 +30,7 @@ function CultivosDetalles() {
     const [showLoading, setShowLoading] = useState(false);
     useEffect(() => {
         setShowLoading(true);
-        axios.get(url + "cultivos/detalles?id=" + window.location.href.split("id=")[1], {
+        axios.get(BASE_URL + "cultivos/detalles?id=" + window.location.href.split("id=")[1], {
             headers: {
                 Authorization: `Bearer ${token.token}`
             }

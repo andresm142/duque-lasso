@@ -5,19 +5,20 @@ import { Fragment, useState, useEffect } from 'react';
 import axios from "axios";
 import Paginacion from "./components/Pagination";
 import EditarCultivos from "./components/EditarCultivos";
+import BASE_URL from "../services/.config";
 
-const url = "http://localhost:9000/";
-// const url = process.env.REACT_APP_URL_API;
+const url = BASE_URL;
 
 function Cultivos() {
 
+    
 
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [showLoading, setShowLoading] = useState(true);
     const [cultivos, setCultivos] = useState([]);
 
-    const limit = 10;
+    const limit = 1;
 
     const token = JSON.parse(localStorage.getItem('token'));
 
@@ -45,6 +46,16 @@ function Cultivos() {
             });
     }, [page, token.token]);
 
+    sessionStorage.setItem("paginaActiva", JSON.stringify({
+        home: "nav_link text-white",
+        cultivos: "nav_link active text-white",
+        predios: "nav_link text-white",
+        users: "nav_link text-white",
+        profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
+        coniguracion: "nav_link text-white",
+        accessDenied: "nav_link text-white",
+        pageNotFound: "nav_link text-white"
+    }))
 
     const [paramModal, setParamModal] = useState({
         titulo: "Detalles del Cultivo",

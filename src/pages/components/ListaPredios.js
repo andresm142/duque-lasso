@@ -1,6 +1,8 @@
 import Logo from "../logo.png";
 import { Fragment, useState } from 'react';
 import { Modal } from "react-bootstrap";
+import BASE_URL from "../../services/.config";
+
 function ListaPredios(props) {
     const [paramModalAsignar, setParamModalAsignar] = useState({
         titulo: "Asignación de predios",
@@ -28,7 +30,7 @@ function ListaPredios(props) {
         window.location.href = "/predios/detalles?id=1";
     }
     const onEditar =()=>{
-        window.location.href = "/predios/editar?id=1";
+        window.location.href = "/predios/edit?id=1";
     }
     const onEliminar =()=>{
         // window.location.href = "/predios/eliminar?id=1";
@@ -68,10 +70,10 @@ function ListaPredios(props) {
                     <hr />
                     <div className="cont_asignado">
                         <div className="nombre">
-                            CULTIVO ASIGNADO
+                            USUARIO ASIGNADO
                         </div>
                         <div className="m-2 asignado">
-                            Lorem ipsum dolor sit amet
+                            Lorem Ipsum
                         </div>
                     </div>
                 </div>

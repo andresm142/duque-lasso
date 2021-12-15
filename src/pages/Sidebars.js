@@ -72,10 +72,7 @@ function Sidebars(props) {
   
 
     }
-    console.log(props.clase);
-
-
-
+    
     return (
         <div className="d-flex flex-column flex-shrink-0 p-3 bg-light vh-100" style={{ width: props.sizeBar.width+"px" }}>
             {/* <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">

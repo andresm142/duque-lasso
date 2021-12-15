@@ -3,8 +3,8 @@ import Logo from "../logo.png";
 import { useEffect, useState, Fragment } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
+import BASE_URL from "../../services/.config";
 
-const url = "http://localhost:9000/";
 const token = JSON.parse(localStorage.getItem('token'));
 
 function EditarCultivos() {
@@ -37,7 +37,7 @@ function EditarCultivos() {
     const onGuardar = (e) => {
         console.log(cultivos);
         if (modo === "edit") {
-            axios.put(url + `cultivos/edit/${cultivos._id}`, cultivos, {
+            axios.put(BASE_URL + `cultivos/edit/${cultivos._id}`, cultivos, {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }
@@ -59,7 +59,7 @@ function EditarCultivos() {
         } if (modo === "agregar") {
             try {
 
-                axios.post(url + "cultivos/new", cultivos, {
+                axios.post(BASE_URL + "cultivos/new", cultivos, {
                     headers: {
                         Authorization: `Bearer ${token.token}`
                     }
@@ -94,7 +94,7 @@ function EditarCultivos() {
         
         if (modo === "edit") {
             setShowLoading(true);
-            axios.get(url + "cultivos/edit?id=" + window.location.href.split("id=")[1], {
+            axios.get(BASE_URL + "cultivos/edit?id=" + window.location.href.split("id=")[1], {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }

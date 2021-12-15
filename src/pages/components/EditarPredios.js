@@ -1,6 +1,7 @@
 import { queries } from "@testing-library/react";
 import "./PredioDetalles.css";
 import AutocompletarCultivos from "./AutocompleteCultivo";
+import BASE_URL from "../../services/.config";
 
 function EditarPredios() {
     const onCancelar = () => {

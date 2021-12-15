@@ -51,8 +51,9 @@ function FormNewUser(props) {
             <div className="form-group">
                 <label htmlFor="rol">Rol</label>
                 <select className="form-control header_text_input" id="rol" name="rol" value={userState.rol} onChange={onInputChange}>
-                    <option value="Admin">Admin</option>
-                    <option value="Usuario">Usuario</option>
+                    <option value="Admin">Administrador</option>
+                    <option value="userConfig">Usuario de configuración</option>
+                    <option value="userGestion">Usuario de gestión</option>
                 </select>
             </div>
 

@@ -18,22 +18,16 @@ import EditarCultivos from "./pages/components/EditarCultivos";
 import AutocompleteSearch from "./pages/components/AutocompleteSearch";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { style } from "@mui/system";
 
 
 function Sidebars(props) {
-    const [clase, setClase] = useState({
-        home: "nav_link active text-white",
-        cultivos: "nav_link text-white",
-        predios: "nav_link text-white",
-        users: "nav_link text-white",
-        profile: "nav_link text-white",
-        coniguracion: "nav_link text-white",
-        accessDenied: "nav_link text-white",
-        pageNotFound: "nav_link text-white"
-    });
-    const [active, setActive] = useState(false);
+    const [paginaActiva,setPaginaActiva] = useState("");
+    useEffect(() => {
+        setPaginaActiva(JSON.parse(sessionStorage.getItem("paginaActiva")));
+    }, []);
+   
 
     const onCerrarSesion = () => {
         props.cerrarSesion(true);
@@ -87,32 +81,33 @@ function Sidebars(props) {
                     <div>
                         <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
                             <li className="nav-item">
-                                <a href="/home" className="nav_link active text-white" aria-current="page">
+                                <a href="/home" className={paginaActiva.home} aria-current="page">
                                     <i className="fa fa-home"></i>
                                     <span className="nav_name">Home</span>
                                 </a>
 
                             </li>
                             <li className="nav-item">
-                                <a href="/cultivos" className="nav_link text-white">
+                                <a href="/cultivos" className={paginaActiva.cultivos}>
                                     <i className="fa fa-seedling"></i>
                                     <span className="nav_name">Cultivos</span>
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="/predios" className="nav_link text-white">
+                                <a href="/predios" className={paginaActiva.predios}>
                                     <i className="fa fa-map-marked"></i>
                                     <span className="nav_name">Predios</span>
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="/users" className="nav_link text-white">
+                                <a href="/users" className={paginaActiva.users}>
                                     <i className="fa fa-users"></i>
                                     <span className="nav_name">Usuarios</span>
                                 </a>
                             </li>
+                            
                             <li className="nav-item">
-                                <a href="/configuracion" className="nav_link text-white">
+                                <a href="/configuracion" className={paginaActiva.coniguracion}>
                                     <i className="fa fa-cog"></i>
                                     <span className="nav_name">Configuración</span>
                                 </a>
@@ -126,7 +121,7 @@ function Sidebars(props) {
 
                     <hr className="border-top" />
 
-                    <a href="none" className="nav_link nav-link dropdown-toggle ml-1 d-flex text-white" role="button" id="navbarDropdown"
+                    <a href="none" className={paginaActiva.profile} role="button" id="navbarDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <img src={LogoUser} alt="mdo" width="24" height="24" style={{ marginRight: "10px" }}
                             className="rounded-circle"></img>

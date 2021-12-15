@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './style.css'
+import BASE_URL from '../services/.config';
 
 
 import Logo from './logo.png';
@@ -14,7 +15,10 @@ function Login(props) {
      const handleSubmit = async (event) => {
 
         event.preventDefault();
-        const url = 'http://localhost:9000/users/login';
+        const url = BASE_URL+'users/login';
+        // cifrar la contraseña
+      
+
         const datos={username, password}
 
         await axios.post(url, datos)

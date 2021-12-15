@@ -12,27 +12,15 @@ import useToken from './pages/components/useToken';
 function App() {
   // const [user, setUser] = useState(null);
   const { token, setToken } = useToken();
- 
+
 
   // const [isLogged, setIsLogged] = useState(sessionStorage.getItem("isLogged"));
 
   if (!token) {
-    
+
     return <Login setToken={setToken} />
   }
 
-
-  // const iniciarSesion = function (e) {
-  //   if (e === true) {
-  //     // setIsLogged(true);
-  //     // window.location.pathname = "/login";
-  //     // e.history.push("/login");
-  //     sessionStorage.setItem("isLogged", true);
-  //     // localStorage.setItem("isLogged", "true");
-  //     // borrar path de la url
-
-  //   }
-  // }
 
   const cerrarSesion = function (e) {
     if (e === true) {
@@ -47,7 +35,7 @@ function App() {
 
   return (
     <div >
-
+ 
       <Sidebars cerrarSesion={cerrarSesion} />
     </div>
   );

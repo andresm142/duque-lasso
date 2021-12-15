@@ -5,19 +5,21 @@ import { Fragment, useEffect, useState } from 'react';
 import { Modal, Spinner } from "react-bootstrap";
 import FormNewUser from "./components/FormNewUser";
 import Paginacion from "./components/Pagination";
+import BASE_URL from "../services/.config";
 
-
+const usuarioActual = JSON.parse(localStorage.getItem("datosUser"));
 
 function Users() {
 
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [showLoading, setShowLoading] = useState(true);
+  
 
   const limit = 10;
 
   const token = JSON.parse(localStorage.getItem('token'));
-  const api_url = "http://localhost:9000/users/all?page=" +
+  const api_url =BASE_URL + "users/all?page=" +
     page +
     "&limit=" +
     limit;
@@ -36,7 +38,7 @@ function Users() {
     console.log(modo);
     console.log(usuario);
     if (modo === "nuevo") {
-      axios.post("http://localhost:9000/users/new", usuario,
+      axios.post(BASE_URL+"users/new", usuario,
         {
           headers: {
             Authorization: 'Bearer ' + token.token
@@ -74,7 +76,13 @@ function Users() {
 
     };
     if (modo === "editar") {
-      axios.put(`http://localhost:9000/users/edit/${usuario._id}`, usuario,
+      
+      if (usuario._id===usuarioActual.id) {
+        alert("No puede editar su propio usuario");
+        return;
+      }
+      
+      axios.put(`${BASE_URL}users/edit/${usuario._id}`, usuario,
         {
           headers: {
             Authorization: 'Bearer ' + token.token
@@ -125,14 +133,14 @@ function Users() {
 
   const onEliminarUsuario = (usuario) => {
     // comprobar si el usuario es el mismo que esta logueado
-    const usuarioActual = JSON.parse(localStorage.getItem("datosUser"));
+    
     if (usuario === usuarioActual.id) {
       alert("No puede eliminar su propio usuario");
       return;
     }
     // Pedir confirmacion y eliminar
     if (window.confirm("¿Está seguro de eliminar el usuario?")) {
-      axios.delete(`http://localhost:9000/users/delete/${usuario}`,
+      axios.delete(`${BASE_URL}users/delete/${usuario}`,
         {
           headers: {
             Authorization: 'Bearer ' + token.token
@@ -167,17 +175,17 @@ function Users() {
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
-    sessionStorage.setItem("paginaActiva",JSON.stringify({
+    sessionStorage.setItem("paginaActiva", JSON.stringify({
       home: "nav_link text-white",
       cultivos: "nav_link text-white",
       predios: "nav_link text-white",
-      users: "nav_link text-white",
-      profile: "nav_link active text-white",
+      users: "nav_link active text-white",
+      profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
       coniguracion: "nav_link text-white",
       accessDenied: "nav_link text-white",
       pageNotFound: "nav_link text-white"
     }));
-    
+
     setShowLoading(true);
     try {
       axios.get(api_url, {
@@ -196,8 +204,12 @@ function Users() {
           if (error.response) {
 
             alert(error.response.data.message);
+            
+            setShowLoading(false);
           } else {
             alert("Error, contacte con el administrador");
+            
+            setShowLoading(false);
           }
 
         });
@@ -207,11 +219,11 @@ function Users() {
 
   }, [api_url, token.token]);
 
-//   const paginaActual= sessionStorage.getItem("paginaActiva");
-// console.log(paginaActual);
-  
+  //   const paginaActual= sessionStorage.getItem("paginaActiva");
+  // console.log(paginaActual);
 
-  
+
+
   const listaUsuarios = usuarios.map(user => (
 
     <ListaUsuarios
@@ -229,6 +241,7 @@ function Users() {
 
   return (
     <Fragment>
+      
       <div className="container container_header">
         <div className="row">
           <div className="col-md-10 titulo">
@@ -265,7 +278,9 @@ function Users() {
           </div>
         </div>
       </div>
-      {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> : listaUsuarios}
+      {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
+        listaUsuarios
+      }
 
       <div className="d-flex justify-content-center mt-2 ">
         {/* <Paginator /> */}
