@@ -31,6 +31,7 @@ function Profile() {
             cultivos: "nav_link text-white",
             predios: "nav_link text-white",
             users: "nav_link text-white",
+            gestion: "nav_link text-white",
             profile: "nav_link active nav-link dropdown-toggle ml-1 d-flex text-white",
             coniguracion: "nav_link text-white",
             accessDenied: "nav_link text-white",

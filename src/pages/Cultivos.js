@@ -18,7 +18,7 @@ function Cultivos() {
     const [showLoading, setShowLoading] = useState(true);
     const [cultivos, setCultivos] = useState([]);
 
-    const limit = 1;
+    const limit = 10;
 
     const token = JSON.parse(localStorage.getItem('token'));
 

@@ -99,6 +99,7 @@ function Sidebars(props) {
                     </Link>
                 </li>
 
+
                 <li className="nav-item">
                     <Link to="/users" className={clase.users}>
                         <i className="fas fa-users fa-lg mr-2"></i>

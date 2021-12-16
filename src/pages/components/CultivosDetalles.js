@@ -184,7 +184,7 @@ function CultivosDetalles() {
                                 COSTO TOTAL DEL CULTIVO
                             </div>
                             <div className="col-4 text-end">
-                                ${cultivo.precio}
+                                ${(cultivo.precio).toLocaleString('es-ES', { minimumFractionDigits: 2 })}
                             </div>
                         </div>
                     </div>

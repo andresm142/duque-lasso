@@ -99,6 +99,14 @@ function Sidebars(props) {
                                     <span className="nav_name">Predios</span>
                                 </a>
                             </li>
+
+                            <li className="nav-item">
+                                <a href="/gestion" className={paginaActiva.users}>
+                                    <i className="fa fa-cogs"></i>
+                                    <span className="nav_name">Gestión</span>
+                                </a>
+                            </li>
+
                             <li className="nav-item">
                                 <a href="/users" className={paginaActiva.users}>
                                     <i className="fa fa-users"></i>
