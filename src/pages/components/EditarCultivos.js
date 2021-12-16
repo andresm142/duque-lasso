@@ -5,14 +5,14 @@ import axios from "axios";
 import { Spinner } from "react-bootstrap";
 import BASE_URL from "../../services/.config";
 
-const token = JSON.parse(localStorage.getItem('token'));
+
 
 function EditarCultivos() {
-
+    const token = JSON.parse(localStorage.getItem('token'));
     const [cultivos, setCultivos] = useState({
         nombre: "",
         descripcion: "",
-        imagen_scr: "",
+        imagen_scr: "",   //Pendiente
         precio: 0,
         area_destinada: 0,
         cantidad_semillas_hectarea: 0,
@@ -113,7 +113,7 @@ function EditarCultivos() {
                     }
                 });
         }
-    }, [modo]);
+    }, [modo, token.token]);
 
     // const valorEstado = (props.modo !== "nuevo" ? { ...props.usuario } : userLimpio);
     // const valorEstado = (modo !== "agregar" ? { ...cultivos } : cultivos);

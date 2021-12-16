@@ -1,70 +1,76 @@
 import Logo from "../logo.png";
-import { Fragment, useState } from 'react';
-import { Modal } from "react-bootstrap";
+import { Fragment } from 'react';
+import axios from 'axios';
 import BASE_URL from "../../services/.config";
 
 function ListaPredios(props) {
-    const [paramModalAsignar, setParamModalAsignar] = useState({
-        titulo: "Asignación de predios",
-        mostrar: false,
-        modo: "nuevo",
-        onGuardar: null,
-        onCancelar: null,
-        proyecto: null
+    const token = JSON.parse(localStorage.getItem('token'));
 
-    });
+    const onDetalles = () => {
 
-    const onMostrarModalAsignar = () => {
-        const paramNuevos = { ...paramModalAsignar };
-        paramNuevos.mostrar = true;
-        setParamModalAsignar(paramNuevos);
+        window.location.href = "/predios/detalles?id=" + props._id;
+
+    }
+    const onEditar = () => {
+        window.location.href = "/predios/edit?id=" + props._id;
     }
 
-    const onCancelarModalAsignar = () => {
-        const paramNuevos = { ...paramModalAsignar };
-        paramNuevos.mostrar = false;
-        setParamModalAsignar(paramNuevos);
+    const onEliminar = () => {
+        if (window.confirm("¿Esta seguro de eliminar este cultivo?")) {
+            axios.delete(BASE_URL + 'predios/delete/' + props._id,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.token}`
+                    }
+                })
+                .then(res => {
+                    alert("Eliminado");
+                    window.location.reload();
+                })
+                .catch(err => {
+                    if (err.response) {
+
+                        alert(err.response.data.message);
+                    } else {
+                        alert("Error, contacte con el administrador");
+                    }
+                }
+                );
+        }
     }
 
-    const onDetalles =()=>{
-        window.location.href = "/predios/detalles?id=1";
-    }
-    const onEditar =()=>{
-        window.location.href = "/predios/edit?id=1";
-    }
-    const onEliminar =()=>{
-        // window.location.href = "/predios/eliminar?id=1";
-        alert("Eliminado");
-    }
     return (
         <Fragment>
-        <div className="container lista_cultivos">
-            <div className="row">
-                <div className="col-md-3 logo">
-                    <div className="header_img">
-                        <img src={Logo} alt="logo" />
+            <div className="container lista_cultivos">
+                <div className="row">
+                    <div className="col-md-3 logo">
+                        <div className="header_img">
+                            <img src={Logo} alt="logo" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-7 nombre_descripcion">
+                        <div className="nombre">
+                            {props.nombre}
+                        </div>
+                        <div className="descripcion">
+                            {props.descripcion}
+                        </div>
+                        <div className="row mt-2">
+                            <label className="label_lista" >Area: {props.area} hectareas</label>
+                            <label className="label_lista" >Ubicación: {props.latitud}, {props.longitud}</label>
+                        </div>
+                    </div>
+
+                    <div className="col-md-2 btn_acciones">
+                        <button className="btn btn-primary" onClick={onEditar}>Editar</button>
+                        <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
+                        <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
+
                     </div>
                 </div>
 
-                <div className="col-md-7 nombre_descripcion">
-                    <div className="nombre">
-                        Nombre del predio
-                    </div>
-                    <div className="descripcion">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </div>
-
-                </div>
-
-                <div className="col-md-2 btn_acciones">
-                    <button className="btn btn-primary" onClick={onEditar}>Editar</button>
-                    <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
-                    <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
-
-                </div>
-            </div>
-
-            <div className="row">
+                {/* <div className="row">
 
                 <div className="col-md-10">
                     <hr />
@@ -80,18 +86,9 @@ function ListaPredios(props) {
                 <div className="col-md-2 btn_asignar">
                     <button className="btn btn-primary b_asignar" onClick={onMostrarModalAsignar}>Asignar</button>
                 </div>
+            </div> */}
             </div>
-        </div>
-        {/* Modal para la asignacián de predios */}
-        <Modal show={paramModalAsignar.mostrar} onHide={onCancelarModalAsignar}>
-                <Modal.Header closeButton className="bg-primary text-white">
-                    <Modal.Title>{paramModalAsignar.titulo}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
 
-                </Modal.Body>
-
-            </Modal>
         </Fragment>
     );
 }

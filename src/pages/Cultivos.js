@@ -1,10 +1,9 @@
 import "./components/EstilosPaginas.css";
 import ListaCultivos from "./components/ListaCultivos";
-import { Modal, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { Fragment, useState, useEffect } from 'react';
 import axios from "axios";
 import Paginacion from "./components/Pagination";
-import EditarCultivos from "./components/EditarCultivos";
 import BASE_URL from "../services/.config";
 
 const url = BASE_URL;
@@ -51,43 +50,21 @@ function Cultivos() {
         cultivos: "nav_link active text-white",
         predios: "nav_link text-white",
         users: "nav_link text-white",
+        gestion: "nav_link text-white",
         profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
         coniguracion: "nav_link text-white",
         accessDenied: "nav_link text-white",
         pageNotFound: "nav_link text-white"
     }))
 
-    const [paramModal, setParamModal] = useState({
-        titulo: "Detalles del Cultivo",
-        mostrar: false,
-        modo: "nuevo",
-        onGuardar: null,
-        onCancelar: null,
-        proyecto: null
-
-    });
-
-    const onMostrarModal = () => {
-        const paramNuevos = { ...paramModal };
-        paramNuevos.mostrar = true;
-        setParamModal(paramNuevos);
-    }
-
-    const onCancelarModal = () => {
-        const paramNuevos = { ...paramModal };
-        paramNuevos.mostrar = false;
-        setParamModal(paramNuevos);
-    }
-    const onEditarCultivo = (cultivo) => {
-        EditarCultivos(cultivo);
-    }
     const listaCultivos = cultivos.map((cultivo) => {
+        
         return (
+            
             <ListaCultivos
                 key={cultivo._id}
                 cultivo={cultivo}
-                onMostrarModal={onMostrarModal}
-                onEditarCultivo={onEditarCultivo}
+                                
                 {...cultivo}
             />
         );
@@ -126,15 +103,7 @@ function Cultivos() {
                     <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
                 </div>
             </div>
-            <Modal show={paramModal.mostrar} onHide={onCancelarModal}>
-                <Modal.Header closeButton className="bg-primary text-white">
-                    <Modal.Title>{paramModal.titulo}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
 
-                </Modal.Body>
-
-            </Modal>
         </Fragment>
 
     );

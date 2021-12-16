@@ -14,8 +14,6 @@ function Users() {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [showLoading, setShowLoading] = useState(true);
-  
-
   const limit = 10;
 
   const token = JSON.parse(localStorage.getItem('token'));
@@ -180,6 +178,7 @@ function Users() {
       cultivos: "nav_link text-white",
       predios: "nav_link text-white",
       users: "nav_link active text-white",
+      gestion: "nav_link text-white",
       profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
       coniguracion: "nav_link text-white",
       accessDenied: "nav_link text-white",
@@ -283,7 +282,6 @@ function Users() {
       }
 
       <div className="d-flex justify-content-center mt-2 ">
-        {/* <Paginator /> */}
         <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
       </div>
       <Modal show={paramModal.mostrar} onHide={onCancelarModal}>

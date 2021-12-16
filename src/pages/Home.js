@@ -9,6 +9,7 @@ function Home() {
         cultivos: "nav_link text-white",
         predios: "nav_link text-white",
         users: "nav_link text-white",
+        gestion: "nav_link text-white",
         profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
         coniguracion: "nav_link text-white",
         accessDenied: "nav_link text-white",
@@ -21,10 +22,26 @@ function Home() {
         <Fragment>
            
             <div >
-
-                <h1>Home</h1>
-
+                <h1>Bienvenido a Servicios Agricolas Duque Lasso SAS </h1>
             </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">Servicios</h5>
+                                <p className="card-text">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Donec eget ex maximus, porta nunc eu,
+                                    maximus nunc.
+                                </p>
+                                <a href="#" className="btn btn-primary">Ver</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </Fragment>
     );
 }

@@ -1,21 +1,24 @@
 import Logo from "../logo.png";
-import { Modal } from "react-bootstrap";
-import { Fragment, useState } from 'react';
+import { Fragment} from 'react';
 import axios from 'axios';
 import BASE_URL from "../../services/.config";
 
 const url=BASE_URL+'cultivos/';
-const token = JSON.parse(localStorage.getItem('token'));
 
-function ListaCultivos({onMostrarModal,...props}) {
+
+function ListaCultivos(props) {
+    console.log(props);
+    const token = JSON.parse(localStorage.getItem('token'));
     const onDetalles =()=>{
         
         window.location.href = "/cultivos/detalles?id="+props._id;
         
     }
+    
     const onEditar =()=>{
         window.location.href = "/cultivos/edit?id="+props._id;
     }
+
     const onEliminar =()=>{
         if (window.confirm("¿Esta seguro de eliminar este cultivo?")) {
             axios.delete(url+'delete/'+props._id,
@@ -37,10 +40,9 @@ function ListaCultivos({onMostrarModal,...props}) {
                   }
             });
         }
-
-        // window.location.href = "/cultivos/eliminar?id=1";
-        
+                
     }
+
     return (
         <Fragment>
             <div className="container lista_cultivos">

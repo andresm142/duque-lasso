@@ -1,5 +1,4 @@
 import "./CultivosDetalles.css";
-import Logo from "../logo.png";
 import axios from 'axios';
 import { useState, useEffect, Fragment } from "react";
 import { Spinner } from "react-bootstrap";
@@ -181,7 +180,7 @@ function CultivosDetalles() {
                     <div className="footer_principal precio">
                         <div className="row">
                             <div className="col-8">
-                                COSTO TOTAL DEL CULTIVO
+                                COSTO TOTAL DEL CULTIVO POR HECTÁREA
                             </div>
                             <div className="col-4 text-end">
                                 ${(cultivo.precio).toLocaleString('es-ES', { minimumFractionDigits: 2 })}

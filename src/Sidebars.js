@@ -15,11 +15,11 @@ import PrediosDetalles from './pages/components/PrediosDetalles';
 // import PrediosAgregar from './pages/components/PrediosAgregar';
 import EditarPredios from "./pages/components/EditarPredios";
 import EditarCultivos from "./pages/components/EditarCultivos";
+import Gestion from "./pages/Gestion";
 import AutocompleteSearch from "./pages/components/AutocompleteSearch";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState,useEffect } from "react";
-import { style } from "@mui/system";
 
 
 function Sidebars(props) {
@@ -101,7 +101,7 @@ function Sidebars(props) {
                             </li>
 
                             <li className="nav-item">
-                                <a href="/gestion" className={paginaActiva.users}>
+                                <a href="/gestion" className={paginaActiva.gestion}>
                                     <i className="fa fa-cogs"></i>
                                     <span className="nav_name">Gestión</span>
                                 </a>
@@ -177,6 +177,7 @@ function Sidebars(props) {
                         <Route path="/predios/edit" element={<EditarPredios />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/users" element={<Users />} />
+                        <Route path="/gestion" element={<Gestion />} />
                         <Route path="/configuracion" element={<Configuracion />} />
                         <Route path="/none" element={<AccessDenied />} />
                         <Route path="*" element={<PageNotFound />} />
