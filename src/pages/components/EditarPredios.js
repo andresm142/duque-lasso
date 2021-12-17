@@ -108,10 +108,10 @@ function EditarPredios(props) {
                         PREDIO
                     </div>
                     <div className="grupo">
-                        <div className="row m-2 detalles_cultivo">
+                        <div className="row m-2 detalles_cultivo" >
                             <div className="col-2">
                                 <div className="header_img">
-                                    <img src={Logo} alt="Logo" className="avatar" />
+                                    <img src={Logo} alt="Logo" className="img-fluid" />
                                 </div>
 
                                 <div className="d-flex justify-content-center m-3">

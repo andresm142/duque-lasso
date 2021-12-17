@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BASE_URL from '../../services/.config';
 
-export default function AutocompletarUserGestion() {
+export default function AutocompletarUserGestion(props) {
   const token = JSON.parse(localStorage.getItem('token'));
   const [listaUsuarios, setListaUsuarios] = useState([]);
     
@@ -48,8 +48,9 @@ export default function AutocompletarUserGestion() {
       />}
 
       onChange={(e, value) => {
-        // props.onChange(value);
-        console.log(value)
+        if (value) {
+          props.handleUsuarioGestion(value.id);
+      }
       }}
     />
   );

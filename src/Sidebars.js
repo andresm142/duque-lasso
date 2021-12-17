@@ -56,16 +56,16 @@ function Sidebars(props) {
                     </div>
 
                     <div className="col-6 d-flex align-items-center">
-                        <div className="col-4"></div>
+                        <div className="col-1"></div>
                         <div className="col-6">
                             <AutocompleteSearch />
                         </div>
-                        <div className="col-2">
+                        <div className="col-5">
 
                             <form action="" className="buscar">
 
                                 {/* <input className="search" type="text" placeholder="Buscar..." /> */}
-                                <select className="select " id="select">
+                                <select className="form-select select " id="select">
                                     <option value="cultivos">Cultivos</option>
                                     <option value="predios">Predios</option>
                                 </select>

@@ -4,8 +4,8 @@ import BASE_URL from '../services/.config';
 import Logo from './logo.png'
 import LogoUser from './user.png'
 import AutocompletarPredios from './components/AutocompletePredio';
-import AutocompletarUsuarioGestion from './components/AutocompleteUsuarioGestion';
 import ListaPrediosAsignados from './components/ListaPrediosAsignados';
+import ListaPrediosNoAsignados from './components/ListaPrediosNoAsignados';
 import AutocompletarUserGestion from './components/AutocompleteUserGestion';
 import Paginacion from "./components/Pagination";
 import { Spinner } from "react-bootstrap";
@@ -19,11 +19,24 @@ function Configuracion() {
     const [predio, setPredio] = useState([]);       // Predio seleccionado
     const [detallePredio, setDetallePredio] = useState({
         latitud: "",
-        longitud: ""
+        longitud: "",
+        asignado: false
     });   // Detalle del predio seleccionado
-    const [usuarioGestion, setUsuarioGestion] = useState([]);
+    const [usuarioGestion, setUsuarioGestion] = useState([]);   // Usuario gestion seleccionado
+    const [detalleUsuario, setDetalleUsuario] = useState({
+        nombre: "",
+        apellido: "",
+        email: "",
+        telefono: "",
+        rol: ""
+    });   // Detalle del usuario gestion seleccionado
+    const [filtrarPredio, setFiltrarPredio] = useState("asignado");
+    const [prediosAsignados, setPrediosAsignados] = useState([]);
+    const [prediosNoAsignados, setPrediosNoAsignados] = useState([]);
 
-    const limit = 10;
+
+
+    const limit = 1;
 
     sessionStorage.setItem("paginaActiva", JSON.stringify({
         home: "nav_link text-white",
@@ -138,11 +151,11 @@ function Configuracion() {
 
     // obtener los detalles del predio seleccionado
     useEffect(() => {
-            if (predio.length > 0) {
-                
+        if (predio.length > 0) {
+
             const token = JSON.parse(localStorage.getItem('token'));
             try {
-                 axios.get(`${BASE_URL}predios/${predio}/asignar`, {
+                axios.get(`${BASE_URL}predios/${predio}/asignar`, {
                     headers: {
                         Authorization: `Bearer ${token.token}`
                     }
@@ -158,8 +171,8 @@ function Configuracion() {
                 }
                 console.log(err);
             }
-    
-            }
+
+        }
     }, [predio]);
 
 
@@ -168,31 +181,18 @@ function Configuracion() {
         setUsuarioGestion(e);
     }
 
-    // Cuando se cambia la pagina de predios asignados
-    const handlePageClick = (e) => {
-        setPage(e);
-    }
-
-    // Obtener los predios asignados
+    // Obtener los detalles del usuario seleccionado
     useEffect(() => {
-        const getPredios = async () => {
-            console.log("getPredios");
-            setShowLoading(true);
+        if (usuarioGestion.length > 0) {
             const token = JSON.parse(localStorage.getItem('token'));
             try {
-                await axios.get(`${BASE_URL}predios/all/asignados`, {
+                axios.get(`${BASE_URL}users/${usuarioGestion}`, {
                     headers: {
                         Authorization: `Bearer ${token.token}`
-                    },
-                    params: {
-                        page: page,
-                        limit: limit
                     }
-                })
-                .then(res => {
-                    console.log(res.data);
-                    setTotalElements(res.data.totalElements);
-                    setShowLoading(false);
+                }).then(res => {
+                    console.log(res.data.usuarios);
+                    setDetalleUsuario(res.data.usuarios);
                 });
             } catch (err) {
                 if (err.response) {
@@ -203,9 +203,131 @@ function Configuracion() {
                 console.log(err);
             }
         }
-                            
+    }, [usuarioGestion]);
+
+
+
+    // Guardar asignacion de predio a usuario
+    const handleAsignarPredio = (e) => {
+        // e.preventDefault();
+        if (!detallePredio.asignado) {
+            const token = JSON.parse(localStorage.getItem('token'));
+            console.log(predio, "--- ", usuarioGestion);
+            try {
+                axios.put(`${BASE_URL}predios/asignar/${predio}`, {
+                    usuario: usuarioGestion
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token.token}`
+                    }
+                }).then(res => {
+                    alert(res.data.message);
+                });
+            } catch (err) {
+                if (err.response) {
+                    alert(err.response.data.message);
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
+                console.log(err);
+            }
+        } else {
+            alert("El predio ya esta asignado a otro usuario");
+        }
+    }
+
+
+    // Cuando se cambia la pagina de predios asignados
+    const handlePageClick = (e) => {
+        setPage(e);
+    }
+
+    // Obtener los predios asignados
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('token'));
+        const getPredios = async () => {
+
+            if (filtrarPredio === "asignado") {
+
+                setShowLoading(true);
+
+                try {
+                    await axios.get(`${BASE_URL}predios/all/asignados`, {
+                        headers: {
+                            Authorization: `Bearer ${token.token}`
+                        },
+                        params: {
+                            page: page,
+                            limit: limit
+                        }
+                    })
+                        .then(res => {
+                            setPrediosAsignados(res.data.predios);
+                            setTotalElements(res.data.totalElements);
+                            setShowLoading(false);
+                        });
+                } catch (err) {
+                    if (err.response) {
+                        alert(err.response.data.message);
+                    } else {
+                        alert("Error, contacte con el administrador");
+                    }
+                    console.log(err);
+                }
+
+            } else if (filtrarPredio === "noAsignado") {
+
+                setShowLoading(true);
+
+                try {
+                    await axios.get(`${BASE_URL}predios/all/noasignados`, {
+                        headers: {
+                            Authorization: `Bearer ${token.token}`
+                        },
+                        params: {
+                            page: page,
+                            limit: limit
+                        }
+                    })
+                        .then(res => {
+                            setPrediosNoAsignados(res.data.predios);
+                            setTotalElements(res.data.totalElements);
+                            setShowLoading(false);
+                        });
+                } catch (err) {
+                    if (err.response) {
+                        alert(err.response.data.message);
+                    } else {
+                        alert("Error, contacte con el administrador");
+                    }
+                    console.log(err);
+                }
+            }
+        }
         getPredios();
-    }, [page]);
+
+    }, [filtrarPredio, page]);
+
+    const onSeleccionarChange = (e) => {
+        setFiltrarPredio(e.target.value);
+    }
+
+    const onSeleccionarPredio = (e) =>{
+        
+    }
+
+    const listarPrediosasignados = prediosAsignados.map((predio,) => 
+        <ListaPrediosAsignados
+            key={predio._id}
+            predio={predio} />
+    );
+
+    const listarPrediosNoAsignados = prediosNoAsignados.map((predio,) => 
+        <ListaPrediosNoAsignados
+            key={predio._id}
+            onSeleccionar={onSeleccionarPredio}
+            predio={predio} />
+    );
 
     return (
         <Fragment>
@@ -285,7 +407,7 @@ function Configuracion() {
 
 
             {/* ---------------------   ASIGNACION DE PREDIOS ---------------  */}
-            <form className="container container_detalles mt-2">
+            <form onSubmit={handleAsignarPredio} className="container container_detalles mt-2">
                 <div className="text-center header_principal">
                     <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>ASIGNACIÓN DE PREDIOS</h2>
                 </div>
@@ -296,7 +418,7 @@ function Configuracion() {
                             <AutocompletarPredios handlePredio={handlePredio} />
 
                             <div className="container">
-                                <div className="row">
+                                <div className="row" style={{ alignItems: "center" }}>
                                     <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio</label>
                                     <div className="col-4">
                                         <img src={Logo} alt="" className="img-fluid" />
@@ -306,19 +428,24 @@ function Configuracion() {
                                             <label htmlFor="" className="header_text_label text-center m-2 mt-2">Ubicación</label>
                                             <div className="col-6">
                                                 <label htmlFor="" className="">Lactitud</label>
-                                                <input type="text" className="form-control" name="lactitud" id="lactitud" 
-                                                value={detallePredio.latitud}
-                                                readOnly
+                                                <input type="text" className="form-control" name="lactitud" id="lactitud"
+                                                    value={detallePredio.latitud}
+                                                    readOnly
                                                 />
 
                                             </div>
                                             <div className="col-6">
                                                 <label htmlFor="" className="">Longitud</label>
-                                                <input type="text" className="form-control" name="longitud" id="longitud" 
-                                                value={detallePredio.longitud}
-                                                readOnly
+                                                <input type="text" className="form-control" name="longitud" id="longitud"
+                                                    value={detallePredio.longitud}
+                                                    readOnly
                                                 />
                                             </div>
+
+                                            {detallePredio.asignado ?
+                                                <div className="text-center mt-2 text-danger font-weight-bold">
+                                                    Predio asignado</div> : null
+                                            }
                                         </div>
 
                                     </div>
@@ -328,10 +455,10 @@ function Configuracion() {
                         </div>
                         <div className="col-6">
                             <label htmlFor="" className="header_text_label m-2 mt-2">Usuario de gestión</label>
-                            <AutocompletarUserGestion />
+                            <AutocompletarUserGestion handleUsuarioGestion={handleUsuarioGestion} />
 
                             <div className="container">
-                                <div className="row">
+                                <div className="row" style={{ alignItems: "center" }}>
                                     <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del usuario</label>
                                     <div className="col-4">
                                         <img src={LogoUser} alt="" className="img-fluid" />
@@ -343,7 +470,10 @@ function Configuracion() {
 
                                             </div>
                                             <div className="col-8">
-                                                <input type="text" className="form-control" name="correo" id="correo" />
+                                                <input type="text" className="form-control" name="correo" id="correo"
+                                                    value={detalleUsuario.email}
+                                                    readOnly
+                                                />
 
                                             </div>
                                         </div>
@@ -353,7 +483,11 @@ function Configuracion() {
 
                                             </div>
                                             <div className="col-8">
-                                                <input type="text" className="form-control" name="telefono" id="telefono" />
+                                                <input type="text" className="form-control" name="telefono" id="telefono"
+                                                    value={detalleUsuario.telefono}
+                                                    readOnly
+
+                                                />
 
                                             </div>
                                         </div>
@@ -383,10 +517,27 @@ function Configuracion() {
             {/* ---------------------   LISTA DE PREDIOS ASIGNADOS    ---------------  */}
             <div className="container container_detalles mt-2">
                 <div className="text-center header_principal">
-                    <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>PREDIOS ASIGNADOS</h2>
+                    <div className='row' style={{ alignItems: "center" }}>
+                        <div className='col-2'></div>
+                        <div className='col-8'>
+                            <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>PREDIOS ASIGNADOS</h2>
+                        </div>
+                        <div className='col-2'>
+                            <label htmlFor="asignado" className="header_text_label ">Filtrar por</label>
+                            <select className='form-select' name='asignado' id='selectOtion' value={filtrarPredio}
+                                onChange={onSeleccionarChange}>
+
+                                <option value='asignado'>Asignados</option>
+                                <option value='noAsignado'>No Asignados</option>
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
                 <div className="container">
-                    <ListaPrediosAsignados />
+                    {filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
+                         
+                    }
 
                     <div className="d-flex justify-content-center mt-2 ">
                         <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />

@@ -44,8 +44,8 @@ function ListaPredios(props) {
             <div className="container lista_cultivos">
                 <div className="row">
                     <div className="col-md-3 logo">
-                        <div className="header_img">
-                            <img src={Logo} alt="logo" />
+                        <div className="">
+                            <img src={Logo} alt="logo" className="img-fluid" />
                         </div>
                     </div>
 
