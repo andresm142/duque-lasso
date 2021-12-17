@@ -36,8 +36,8 @@ function Profile() {
             coniguracion: "nav_link text-white",
             accessDenied: "nav_link text-white",
             pageNotFound: "nav_link text-white"
-          }))
-        }, []);
+        }))
+    }, []);
 
     const onMostrarModal = () => {
         const paramNuevos = { ...paramModal };
@@ -65,39 +65,40 @@ function Profile() {
         evt.preventDefault();
         const datos = { ...datosPerfil };
         const token = JSON.parse(localStorage.getItem('token'));
-        const body= {
+        const body = {
             username: datos.email,
             password: pass.passActual,
             newPassword: pass.passNuevo,
-            
+
         };
         if (pass.passNuevo === pass.passConfirmar) {
-            const url = BASE_URL+ 'users/cambiarPass';
-            
-            await axios.post(url, body,{
+            const url = BASE_URL + 'users/cambiarPass';
+
+            await axios.post(url, body, {
                 headers: {
-                  Authorization: 'Bearer ' + token.token
-                }})
+                    Authorization: 'Bearer ' + token.token
+                }
+            })
                 .then(response => {
-                    
+
                     if (response.status === 200) {
-                            alert("Contraseña cambiada con exito");
-                            onCancelarModal();
-                        } else {
-                            alert("Error al cambiar contraseña");
-                        }
+                        alert("Contraseña cambiada con exito");
+                        onCancelarModal();
+                    } else {
+                        alert("Error al cambiar contraseña");
+                    }
                     return response.data;
 
                 })
                 .catch(error => {
                     if (error.response) {
-                        
+
                         alert(error.response.data.message);
                     } else {
                         alert("Error, contacte con el administrador");
                     }
 
-                    
+
                 });
 
         } else {
@@ -126,7 +127,7 @@ function Profile() {
                                 <div className="form-group2">
                                     <label htmlFor="apellido_usuario">Apellido</label>
                                     <input type="text" className="form-control" id="apellido_usuario"
-                                        name="apellido" readOnly  value={datosPerfil.apellido} />
+                                        name="apellido" readOnly value={datosPerfil.apellido} />
 
                                 </div>
                             </div>
@@ -143,6 +144,10 @@ function Profile() {
                                         name="telefono" readOnly value={datosPerfil.telefono} />
                                 </div>
 
+                            </div>
+                            <div className="form-group1">
+                                Rol de usuario: {datosPerfil.rol === "Admin" ? "Administrador" :
+                                    datosPerfil.rol === "userConfig" ? "Usuario Coniguración" : "Usuario de gestión"}
                             </div>
                             <div className="form-group1">
 

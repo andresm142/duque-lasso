@@ -312,9 +312,7 @@ function Configuracion() {
         setFiltrarPredio(e.target.value);
     }
 
-    const onSeleccionarPredio = (e) =>{
-        
-    }
+ 
 
     const listarPrediosasignados = prediosAsignados.map((predio,) => 
         <ListaPrediosAsignados
@@ -325,7 +323,6 @@ function Configuracion() {
     const listarPrediosNoAsignados = prediosNoAsignados.map((predio,) => 
         <ListaPrediosNoAsignados
             key={predio._id}
-            onSeleccionar={onSeleccionarPredio}
             predio={predio} />
     );
 
@@ -415,7 +412,8 @@ function Configuracion() {
                     <div className="row">
                         <div className="col-6">
                             <label htmlFor="" className="header_text_label m-2 mt-2">Predio</label>
-                            <AutocompletarPredios handlePredio={handlePredio} />
+                            <AutocompletarPredios handlePredio={handlePredio}
+                             />
 
                             <div className="container">
                                 <div className="row" style={{ alignItems: "center" }}>

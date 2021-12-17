@@ -44,7 +44,7 @@ function ListaPredios(props) {
             <div className="container lista_cultivos">
                 <div className="row">
                     <div className="col-md-3 logo">
-                        <div className="">
+                        <div className="header_img">
                             <img src={Logo} alt="logo" className="img-fluid" />
                         </div>
                     </div>
@@ -65,7 +65,7 @@ function ListaPredios(props) {
                     <div className="col-md-2 btn_acciones">
                         <button className="btn btn-primary" onClick={onEditar}>Editar</button>
                         <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
-                        <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
+                        {/* <button className="btn btn-primary" onClick={onDetalles}>Ver más</button> */}
 
                     </div>
                 </div>

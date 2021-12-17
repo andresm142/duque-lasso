@@ -4,10 +4,11 @@ import { Fragment, useState } from 'react';
 import BASE_URL from "../../services/.config";
 
 function ListaPrediosNoAsignados(props) {
-    console.log(props);
-    const onSeleccionar = () => {
-        // props.onSeleccionar(props);
-    }
+        
+    // const onSeleccionar = () => {
+    //     props.onSeleccionar(props.predio);
+    // }
+
     return (
         <Fragment>
             <div className="container lista_cultivos">
@@ -47,7 +48,7 @@ function ListaPrediosNoAsignados(props) {
 
                     <div className="col-md-2 btn_acciones justify-content-center">
 
-                        <button className="btn btn-primary" onClick={onSeleccionar}>Seleccionar</button>
+                        {/* <button className="btn btn-primary" onClick={onSeleccionar}>Seleccionar</button> */}
 
                     </div>
                 </div>
