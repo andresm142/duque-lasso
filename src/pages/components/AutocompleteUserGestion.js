@@ -4,25 +4,25 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BASE_URL from '../../services/.config';
 
-export default function AutocompletarCultivos() {
+export default function AutocompletarUserGestion() {
   const token = JSON.parse(localStorage.getItem('token'));
-  const [listaCultivos, setListaCultivos] = useState([]);
+  const [listaUsuarios, setListaUsuarios] = useState([]);
     
   useEffect(() => {
-      async function getListaCultios() {
-      await axios.get(`${BASE_URL}cultivos/all/autocomplete`, {
+      async function getListaUser() {
+      await axios.get(`${BASE_URL}users/all/gestion/autocomplete`, {
           headers: {
               Authorization: `Bearer ${token.token}`
           }
       })
           .then(res => {
              
-              setListaCultivos(
-                  res.data.cultivos.map(cultivo => {
+              setListaUsuarios(
+                  res.data.usuarios.map(usuarios => {
                       return {
-                          label: cultivo.nombre,
-                          value: cultivo.nombre,
-                          id: cultivo._id
+                          label: usuarios.nombre + " " + usuarios.apellido,
+                          value: usuarios.nombre,
+                          id: usuarios._id
                       }
                   })
               )
@@ -31,16 +31,16 @@ export default function AutocompletarCultivos() {
               console.log(err);
           });
       }
-      getListaCultios();
+      getListaUser();
   }, [token.token]);
 
   return (
     <Autocomplete
       disablePortal
       id="combo-box-demo"
-      options={listaCultivos}
+      options={listaUsuarios}
       // sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Seleccione un cultivo" size="small"
+      renderInput={(params) => <TextField {...params} label="Seleccione un usuarios" size="small"
         onChange={(event) => {
           // props.onChange(event.target.value);
           console.log(event.target.value);
@@ -54,17 +54,3 @@ export default function AutocompletarCultivos() {
     />
   );
 }
-
-// Lista de Cultivos
-// const listaCultivos = [
-//   {
-//     label: 'Cultivo 1'
-//   },
-//   {
-//     label: 'Cultivo 2'
-//   },
-//   {
-//     label: 'Cultivo 3'
-//   },
-// ];
-

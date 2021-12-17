@@ -6,7 +6,9 @@ import LogoUser from './user.png'
 import AutocompletarPredios from './components/AutocompletePredio';
 import AutocompletarUsuarioGestion from './components/AutocompleteUsuarioGestion';
 import ListaPrediosAsignados from './components/ListaPrediosAsignados';
+import AutocompletarUserGestion from './components/AutocompleteUserGestion';
 import Paginacion from "./components/Pagination";
+import { Spinner } from "react-bootstrap";
 
 
 function Configuracion() {
@@ -14,6 +16,12 @@ function Configuracion() {
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [showLoading, setShowLoading] = useState(true);
+    const [predio, setPredio] = useState([]);       // Predio seleccionado
+    const [detallePredio, setDetallePredio] = useState({
+        latitud: "",
+        longitud: ""
+    });   // Detalle del predio seleccionado
+    const [usuarioGestion, setUsuarioGestion] = useState([]);
 
     const limit = 10;
 
@@ -111,6 +119,7 @@ function Configuracion() {
         }
     }
 
+    // Al hacer click en Guardar parametros
     const handleSubmit = (e) => {
         e.preventDefault();
         if (parametros._id) {
@@ -121,12 +130,87 @@ function Configuracion() {
 
     }
 
+    // Al escoger un predio de la lista
+    const handlePredio = (e) => {
+        console.log(e);
+        setPredio(e);
+    }
+
+    // obtener los detalles del predio seleccionado
+    useEffect(() => {
+            if (predio.length > 0) {
+                
+            const token = JSON.parse(localStorage.getItem('token'));
+            try {
+                 axios.get(`${BASE_URL}predios/${predio}/asignar`, {
+                    headers: {
+                        Authorization: `Bearer ${token.token}`
+                    }
+                }).then(res => {
+                    console.log(res.data.predios.latitud);
+                    setDetallePredio(res.data.predios);
+                });
+            } catch (err) {
+                if (err.response) {
+                    alert(err.response.data.message);
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
+                console.log(err);
+            }
+    
+            }
+    }, [predio]);
+
+
+    // Al escoger un usuario de la lista
+    const handleUsuarioGestion = (e) => {
+        setUsuarioGestion(e);
+    }
+
+    // Cuando se cambia la pagina de predios asignados
     const handlePageClick = (e) => {
         setPage(e);
     }
 
+    // Obtener los predios asignados
+    useEffect(() => {
+        const getPredios = async () => {
+            console.log("getPredios");
+            setShowLoading(true);
+            const token = JSON.parse(localStorage.getItem('token'));
+            try {
+                await axios.get(`${BASE_URL}predios/all/asignados`, {
+                    headers: {
+                        Authorization: `Bearer ${token.token}`
+                    },
+                    params: {
+                        page: page,
+                        limit: limit
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    setTotalElements(res.data.totalElements);
+                    setShowLoading(false);
+                });
+            } catch (err) {
+                if (err.response) {
+                    alert(err.response.data.message);
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
+                console.log(err);
+            }
+        }
+                            
+        getPredios();
+    }, [page]);
+
     return (
         <Fragment>
+
+            {/* ---------------------   CONIGURACIÓN DE PARAMETROS ---------------  */}
             <form onSubmit={handleSubmit} className="container container_detalles">
 
                 <div className="text-center header_principal">
@@ -198,6 +282,9 @@ function Configuracion() {
                     </div>
                 </div>
             </form>
+
+
+            {/* ---------------------   ASIGNACION DE PREDIOS ---------------  */}
             <form className="container container_detalles mt-2">
                 <div className="text-center header_principal">
                     <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>ASIGNACIÓN DE PREDIOS</h2>
@@ -206,7 +293,7 @@ function Configuracion() {
                     <div className="row">
                         <div className="col-6">
                             <label htmlFor="" className="header_text_label m-2 mt-2">Predio</label>
-                            <AutocompletarPredios />
+                            <AutocompletarPredios handlePredio={handlePredio} />
 
                             <div className="container">
                                 <div className="row">
@@ -219,12 +306,18 @@ function Configuracion() {
                                             <label htmlFor="" className="header_text_label text-center m-2 mt-2">Ubicación</label>
                                             <div className="col-6">
                                                 <label htmlFor="" className="">Lactitud</label>
-                                                <input type="number" className="form-control" name="lactitud" id="lactitud" />
+                                                <input type="text" className="form-control" name="lactitud" id="lactitud" 
+                                                value={detallePredio.latitud}
+                                                readOnly
+                                                />
 
                                             </div>
                                             <div className="col-6">
                                                 <label htmlFor="" className="">Longitud</label>
-                                                <input type="number" className="form-control" name="longitud" id="longitud" />
+                                                <input type="text" className="form-control" name="longitud" id="longitud" 
+                                                value={detallePredio.longitud}
+                                                readOnly
+                                                />
                                             </div>
                                         </div>
 
@@ -235,7 +328,7 @@ function Configuracion() {
                         </div>
                         <div className="col-6">
                             <label htmlFor="" className="header_text_label m-2 mt-2">Usuario de gestión</label>
-                            <AutocompletarUsuarioGestion />
+                            <AutocompletarUserGestion />
 
                             <div className="container">
                                 <div className="row">
@@ -285,13 +378,16 @@ function Configuracion() {
                 </div>
 
             </form>
+
+
+            {/* ---------------------   LISTA DE PREDIOS ASIGNADOS    ---------------  */}
             <div className="container container_detalles mt-2">
                 <div className="text-center header_principal">
                     <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>PREDIOS ASIGNADOS</h2>
                 </div>
                 <div className="container">
                     <ListaPrediosAsignados />
-                    
+
                     <div className="d-flex justify-content-center mt-2 ">
                         <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
                     </div>
