@@ -37,14 +37,14 @@ function Sidebars(props) {
 
     return (
 
-        <section id="body-pd">
+        <section id="body-pd" className="body-pd">  {/* className="body-pd" */}
             <div>
-                <header className="header" id="header">
+                <header className="header body-pd" id="header"> {/* body-pd */}
 
 
                     <div className="col-3">
                         <div className="header_toggle">
-                            <i id="header-toggle" className="fas fa-bars text-white"></i>
+                            <i id="header-toggle" className="fas fa-bars text-white bx-x"></i> {/*bx-x */}
                         </div>
                     </div>
                     <div className="col-3 ">
@@ -76,7 +76,7 @@ function Sidebars(props) {
                         </div>
                     </div>
                 </header>
-                <div className="l-navbar flex-column flex-shrink-0 vh-100" id="nav-bar">
+                <div className="l-navbar flex-column flex-shrink-0 vh-100 show" id="nav-bar"> {/*show */}
 
                     <div>
                         <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BASE_URL from '../../services/.config';
 
-export default function AutocompletarCultivos() {
+export default function AutocompletarCultivos(props) {
   const token = JSON.parse(localStorage.getItem('token'));
   const [listaCultivos, setListaCultivos] = useState([]);
     
@@ -41,16 +41,16 @@ export default function AutocompletarCultivos() {
       options={listaCultivos}
       // sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Seleccione un cultivo" size="small"
-        onChange={(event) => {
-          // props.onChange(event.target.value);
-          console.log(event.target.value);
-        }}
+    
       />}
 
       onChange={(e, value) => {
-        // props.onChange(value);
-        console.log(value)
-      }}
+        if (value) {
+            props.handleCultivo(value.id);
+        }
+
+
+    }}
     />
   );
 }

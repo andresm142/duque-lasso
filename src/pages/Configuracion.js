@@ -36,7 +36,7 @@ function Configuracion() {
 
 
 
-    const limit = 1;
+    const limit = 10;
 
     sessionStorage.setItem("paginaActiva", JSON.stringify({
         home: "nav_link text-white",
@@ -145,7 +145,6 @@ function Configuracion() {
 
     // Al escoger un predio de la lista
     const handlePredio = (e) => {
-        console.log(e);
         setPredio(e);
     }
 
@@ -155,7 +154,7 @@ function Configuracion() {
 
             const token = JSON.parse(localStorage.getItem('token'));
             try {
-                axios.get(`${BASE_URL}predios/${predio}/asignar`, {
+                axios.get(`${BASE_URL}predios/${predio}/asignado`, {
                     headers: {
                         Authorization: `Bearer ${token.token}`
                     }

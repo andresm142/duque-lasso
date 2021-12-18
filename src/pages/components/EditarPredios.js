@@ -57,7 +57,7 @@ function EditarPredios(props) {
                 })
                     .then(res => {
                         console.log(res);
-                        alert("Cultivo guardado");
+                        alert(res.data.message);
                         window.location.href = "/predios";
                     })
                     .catch(err => {
@@ -92,6 +92,7 @@ function EditarPredios(props) {
                 .then(res => {
                     
                     setPredios(res.data.predios);
+                    alert(res.data.message);
                     setShowLoading(false);
                 })
                 .catch(err => {

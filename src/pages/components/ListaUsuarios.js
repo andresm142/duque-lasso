@@ -16,7 +16,7 @@ function ListaUsuarios({ editarUsuario, eliminarUsuario, ...props }) {
             setRol("Administrador")
         } else if (props.rol === "userConfig") {
             setRol("Usuario de configuración")
-        } else if (props.rol === "userGestios") {
+        } else if (props.rol === "userGestion") {
             setRol("Usuario de gestión")
         }
     }, [props.rol])

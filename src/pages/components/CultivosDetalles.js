@@ -28,8 +28,11 @@ function CultivosDetalles() {
 
     const [showLoading, setShowLoading] = useState(false);
     useEffect(() => {
-        setShowLoading(true);
-        axios.get(BASE_URL + "cultivos/detalles?id=" + window.location.href.split("id=")[1], {
+        setShowLoading(true)
+        const id = window.location.href.split("id=")[1];
+        console.log(id);
+        // axios.get(BASE_URL + "cultivos/detalles?id=" + window.location.href.split("id=")[1], {
+        axios.get(BASE_URL + `cultivos/${id}`, {
             headers: {
                 Authorization: `Bearer ${token.token}`
             }
