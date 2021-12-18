@@ -12,10 +12,12 @@ import { Spinner } from "react-bootstrap";
 
 
 function Configuracion() {
-
+    
+    const limit = 10;
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [showLoading, setShowLoading] = useState(true);
+    
     const [predio, setPredio] = useState([]);       // Predio seleccionado
     const [detallePredio, setDetallePredio] = useState({
         latitud: "",
@@ -36,7 +38,7 @@ function Configuracion() {
 
 
 
-    const limit = 10;
+    
 
     sessionStorage.setItem("paginaActiva", JSON.stringify({
         home: "nav_link text-white",
@@ -532,10 +534,11 @@ function Configuracion() {
 
                 </div>
                 <div className="container">
-                    {filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
+                {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
+                    filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
                          
-                    }
-
+                    
+                }
                     <div className="d-flex justify-content-center mt-2 ">
                         <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
                     </div>

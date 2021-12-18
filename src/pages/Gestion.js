@@ -2,10 +2,19 @@ import { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import AutocompletarPrediosPropios from "./components/AutocompletePredioPropio";
 import AutocompletarCultivos from "./components/AutocompleteCultivo";
+import ListaCultivosAsignados from "./components/ListaCultivosAsignados";
+import Paginacion from "./components/Pagination";
+import { Spinner } from "react-bootstrap";
 import Logo from "./logo.png";
 import BASE_URL from "../services/.config";
+import ListaPrediosAsignados from "./components/ListaPrediosAsignados";
 
 function Gestion() {
+
+    const limit = 3;
+    const [page, setPage] = useState(1);
+    const [totalElements, setTotalElements] = useState(0);
+    const [showLoading, setShowLoading] = useState(true);
 
     const [predio, setPredio] = useState([]);       // Predio seleccionado
     const [detallePredio, setDetallePredio] = useState({
@@ -20,13 +29,21 @@ function Gestion() {
     });   // Detalle del cultivo seleccionado
 
     const [input, setInput] = useState({
-        area_destinada: 0,
-        fecha_siembra: 2021 - 12 - 8,
+        area_destinada: null,
+        fecha_siembra: null,
     });
 
+    // Cuando se cambia la pagina de predios asignados
+    const handlePageClick = (e) => {
+        setPage(e);
+    }
+
     const [estadoInput, setEstadoInput] = useState(true);
-    const [fechaRecoleccion, setFechaRecoleccion] = useState(new Date().toLocaleDateString());
+    const [fechaRecoleccion, setFechaRecoleccion] = useState();
     const [mostrarFecha, setMostrarFecha] = useState(false);
+    const [cultivos, setCultivos] = useState([]);
+    const [predios, setPredios] = useState([]);
+    const [fecha, setFecha] = useState(new Date().toLocaleDateString());
 
     sessionStorage.setItem("paginaActiva", JSON.stringify({
         home: "nav_link text-white",
@@ -97,22 +114,27 @@ function Gestion() {
     const establecerFecha = (e) => {
         const semanas = detalleCultivo.tiempo_cosecha_semana;
 
-        // sumar semanas a la fecha de siembra
+        // Convertir la fecha en semanas
         const fecha = new Date(e);
+        const fecha_semanas = Math.floor((fecha.getTime() - new Date(2020, 11, 8).getTime()) / (1000 * 60 * 60 * 24 * 7));
+        const fecha_final = fecha_semanas + semanas;
+        setFechaRecoleccion(fecha_final);
+        //  sumar semanas a la fecha de siembra
+        const fecha2 = new Date(e);
         console.log(e);
-        console.log(fecha);
-        fecha.setDate(fecha.getDate() + semanas * 7 + 1);
-        setFechaRecoleccion(fecha.toLocaleDateString());
-
+        console.log(fecha2);
+        fecha2.setDate(fecha2.getDate() + semanas * 7 + 1);
+        setFecha(fecha2.toLocaleDateString());
     }
+
 
     // Al enviar el formulario
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = JSON.parse(localStorage.getItem('token'));
         const data = {
-            area_destinada: input.area_destinada,
-            fecha_siembra: input.fecha_siembra,
+            area_destinada: detalleCultivo.area_destinada,
+            fecha_siembra: fecha,
             fecha_recoleccion: fechaRecoleccion
         }
         try {
@@ -125,15 +147,15 @@ function Gestion() {
                 // if (res.data.status === 500) {
                 //     alert(res.data.message);
                 // } else {
-                    alert(res.data.message);
-                    setInput({
-                        area_destinada: 0,
-                        fecha_siembra: 2021 - 12 - 8,
-                    });
-                    setEstadoInput(true);
-                    setPredio([]);
-                    setCultivo([]);
-                    setMostrarFecha(false);
+                alert(res.data.message);
+                // setInput({
+                //     area_destinada: null,
+                //     fecha_siembra: null,
+                // });
+                // setEstadoInput(true);
+                // setPredio([]);
+                // setCultivo([]);
+                setMostrarFecha(false);
                 // }
             });
         } catch (err) {
@@ -161,6 +183,8 @@ function Gestion() {
                 }).then(res => {
                     console.log(res.data.cultivos.nombre);
                     setDetalleCultivo(res.data.cultivos);
+                    setTotalElements(res.data.totalElements);
+
                 });
             } catch (err) {
                 if (err.response) {
@@ -172,6 +196,47 @@ function Gestion() {
             }
         }
     }, [cultivo]);
+
+    // Obtener los cultivos asignados al usuario
+    useEffect(() => {
+        setShowLoading(true);
+        const token = JSON.parse(localStorage.getItem('token'));
+        const id_usuario = JSON.parse(localStorage.getItem('datosUser')).id
+        try {
+            axios.get(`${BASE_URL}predios/cultivos/asignados/${id_usuario}`, {
+                headers: {
+                    Authorization: `Bearer ${token.token}`
+                },
+                params: {
+                    page: page,
+                    limit: limit
+                }
+            }).then(res => {
+                console.log(res.data);
+                setPredios(res.data.predios);
+                setTotalElements(res.data.totalElements);
+                setShowLoading(false);
+                // console.log(res.data.cultivos[0].cultivo.nombre);
+
+                // setCultivos(res.data.cultivos);
+            });
+        } catch (err) {
+            if (err.response) {
+                alert(err.response.data.message);
+            } else {
+                alert("Error, contacte con el administrador");
+            }
+            console.log(err);
+        }
+    }, [page, mostrarFecha]);
+
+    const listaPrediosAsignados = predios.map((predio) =>
+        <ListaCultivosAsignados
+            key={predio._id}
+            predio={predio}
+            fecha={mostrarFecha}
+        />
+    );
 
 
     return (
@@ -263,9 +328,11 @@ function Gestion() {
                                             </div>
                                             <div className="col-8">
                                                 <input type="number" className="form-control" name="area_destinada" id="area_destinada"
-                                                    value={input.area_destinada}
-                                                    disabled={estadoInput}
-                                                    onChange={handleChange}
+                                                    // value={input.area_destinada}
+                                                    value={detalleCultivo.area_destinada}
+                                                    readOnly
+                                                // disabled={estadoInput}
+                                                // onChange={handleChange}
                                                 />
 
                                             </div>
@@ -292,7 +359,7 @@ function Gestion() {
                                             {mostrarFecha ? <h5>Tiempo de cosecha: {detalleCultivo.tiempo_cosecha_semana} semanas</h5> : null}
                                         </div>
                                         <div className="row mt-2">
-                                            {mostrarFecha ? <h5>Fecha probable de recolección: {fechaRecoleccion} </h5> : null}
+                                            {mostrarFecha ? <h5>Fecha probable de recolección: {fechaRecoleccion} semanas ({fecha}) </h5> : null}
 
                                         </div>
 
@@ -319,6 +386,39 @@ function Gestion() {
 
             </form>
 
+            {/* ---------------------   LISTA DE PREDIOS CON CULTIVOS ASIGNADOS    ---------------  */}
+            <div className="container container_detalles mt-2">
+                <div className="text-center header_principal">
+                    <div className='row' style={{ alignItems: "center" }}>
+                        <div className='col-2'></div>
+                        <div className='col-8'>
+                            <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>CULTIVOS</h2>
+                        </div>
+                        <div className='col-2'>
+                            <label htmlFor="asignado" className="header_text_label ">Filtrar por</label>
+                            <select className='form-select' name='asignado' id='selectOtion'
+                            >
+
+                                <option value='asignado'>Asignados</option>
+                                <option value='noAsignado'>No Asignados</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div className="container">
+                    {/* {filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
+                         
+                    } */}
+                    {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
+                         listaPrediosAsignados 
+                    }
+                    {/* <ListaCultivosAsignados /> */}
+                    <div className="d-flex justify-content-center mt-2 ">
+                        <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
+                    </div>
+                </div>
+            </div>
 
 
         </Fragment>
