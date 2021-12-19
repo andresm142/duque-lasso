@@ -7,7 +7,10 @@ import EditarPredios from "./components/EditarPredios";
 import axios from "axios";
 import BASE_URL from "../services/.config";
 
+const rolUser ="";
+
 function Predios() {
+    const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
 
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
@@ -78,14 +81,13 @@ function Predios() {
                         Predios
                     </div>
                     <div className="col-md-2 btn_anadir">
+                        {rolUser !== "userGestion" ?
                         <button className="btn btn-primary" onClick={() => {
                             window.location.href = "/predios/agregar";
                         }}>
                             Añadir
                         </button>
-                        {/* <button className="btn btn-primary" onClick={() => {
-                            this.props.history.push('/predios/nuevo')
-                        }}>Añadir</button> */}
+                        :null}
 
                     </div>
                 </div>

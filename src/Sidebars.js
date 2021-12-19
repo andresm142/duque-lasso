@@ -21,26 +21,27 @@ import AutocompleteSearch from "./pages/components/AutocompleteSearch";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState,useEffect } from "react";
 
+const rolUser = "";
 
 function Sidebars(props) {
+    const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
+  
     const [paginaActiva,setPaginaActiva] = useState("");
     useEffect(() => {
         setPaginaActiva(JSON.parse(sessionStorage.getItem("paginaActiva")));
     }, []);
    
-
     const onCerrarSesion = () => {
         props.cerrarSesion(true);
         // localStorage.setItem("isLogged", "false");
         sessionStorage.setItem("isLogged", "false");
     }
-
+    
     return (
 
         <section id="body-pd" className="body-pd">  {/* className="body-pd" */}
             <div>
                 <header className="header body-pd" id="header"> {/* body-pd */}
-
 
                     <div className="col-3">
                         <div className="header_toggle">
@@ -99,27 +100,33 @@ function Sidebars(props) {
                                     <span className="nav_name">Predios</span>
                                 </a>
                             </li>
-
+                            
+                            {rolUser === "Admin" || rolUser==="userGestion" ?
                             <li className="nav-item">
                                 <a href="/gestion" className={paginaActiva.gestion}>
                                     <i className="fa fa-cogs"></i>
                                     <span className="nav_name">Gestión</span>
                                 </a>
                             </li>
+                            :null}
 
+                            {rolUser === "Admin" ?
                             <li className="nav-item">
                                 <a href="/users" className={paginaActiva.users}>
                                     <i className="fa fa-users"></i>
                                     <span className="nav_name">Usuarios</span>
                                 </a>
                             </li>
-                            
+                            : null}
+
+                            {rolUser !== "userGestion" ?
                             <li className="nav-item">
                                 <a href="/configuracion" className={paginaActiva.coniguracion}>
                                     <i className="fa fa-cog"></i>
                                     <span className="nav_name">Configuración</span>
                                 </a>
                             </li>
+                            : null}
 
                         </ul>
 
@@ -146,9 +153,7 @@ function Sidebars(props) {
 
                         <li>
                             <div className="dropdown-item logout" onClick={onCerrarSesion}>
-
                                 Cerrar Sesión
-
                             </div>
 
                         </li>
@@ -158,7 +163,9 @@ function Sidebars(props) {
                 </div>
 
             </div>
-            {/* Container Main start */}
+
+
+            {/* Container Main Routes */}
 
             <div className="container-fluid height-100">
                 <div style={{ height: "10px" }} ></div>
@@ -180,6 +187,7 @@ function Sidebars(props) {
                         <Route path="/gestion" element={<Gestion />} />
                         <Route path="/configuracion" element={<Configuracion />} />
                         <Route path="/none" element={<AccessDenied />} />
+                        <Route path="/accessDenied" element={<AccessDenied />} />
                         <Route path="*" element={<PageNotFound />} />
                     </Routes>
                 </Router>

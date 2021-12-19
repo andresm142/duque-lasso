@@ -1,16 +1,22 @@
 import Logo from "../logo.png";
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import BASE_URL from "../../services/.config";
 
 function ListaDetallesCultivosAsignados(props) {
-    console.log(props);
+    
+    const totalSemillas = props.cultivo.cantidad_semillas_hectarea * props.cultivo.area_destinada;
+    const totalFertilizantes = props.cultivo.cantidad_fertilizante_semana * props.cultivo.tiempo_cosecha_semana;
+    
+    const costoTotal = totalSemillas * props.parametros.valor_semilla +
+        totalFertilizantes * props.parametros.valor_fertilizante+
+        props.cultivo.cantidad_agua_semana * props.parametros.valor_agua * props.cultivo.tiempo_cosecha_semana;
     const onDesasignar = () => {
         const id_predio = props.predio_id;
         const id_cultivo = props.cultivo._id;
         const token = JSON.parse(localStorage.getItem('token'));
         if (window.confirm("¿Esta seguro de desasignar este cultivo?")) {
-            
+
             axios.delete(BASE_URL + `predios/${id_predio}/cultivos/${id_cultivo}/desasignar`,
                 {
                     headers: {
@@ -50,7 +56,7 @@ function ListaDetallesCultivosAsignados(props) {
                             {props.cultivo.descripcion}
                         </div>
                     </div>
-                    
+
                     <div className="col-md-2 btn_acciones justify-content-center">
 
                         <button className="btn btn-danger" onClick={onDesasignar}>Desasignar</button>
@@ -83,7 +89,7 @@ function ListaDetallesCultivosAsignados(props) {
                             Cantidad total de semillas necesarias:
                         </div>
                         <div className="col-3 valor text-end">
-                            0
+                            {totalSemillas} semillas
                         </div>
                     </div>
                     <div className="row ">
@@ -122,7 +128,7 @@ function ListaDetallesCultivosAsignados(props) {
                             Cantidad total de fertilizantes necesarios:
                         </div>
                         <div className="col-3 valor text-end">
-                            0
+                            {totalFertilizantes}
                         </div>
                     </div>
                     <div className="row ">
@@ -161,8 +167,8 @@ function ListaDetallesCultivosAsignados(props) {
                             Costo total del cultivo:
                         </div>
                         <div className="col-3 valor text-end">
-                            
-                            ${(props.cultivo.precio)?.toLocaleString('es-ES', { minimumFractionDigits: 2 })}
+
+                            ${(costoTotal)?.toLocaleString('es-ES', { minimumFractionDigits: 2 })}
                         </div>
                     </div>
 

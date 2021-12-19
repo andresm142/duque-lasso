@@ -8,9 +8,10 @@ import BASE_URL from "../services/.config";
 
 const url = BASE_URL;
 
-function Cultivos() {
 
-    
+function Cultivos() {
+    const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
+
 
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
@@ -29,7 +30,7 @@ function Cultivos() {
             }
         })
             .then(res => {
-                console.log(res);
+
                 setCultivos(res.data.cultivos);
                 setTotalElements(res.data.totalElements);
                 setShowLoading(false);
@@ -58,13 +59,13 @@ function Cultivos() {
     }))
 
     const listaCultivos = cultivos.map((cultivo) => {
-        
+
         return (
-            
+
             <ListaCultivos
                 key={cultivo._id}
                 cultivo={cultivo}
-                                
+
                 {...cultivo}
             />
         );
@@ -83,15 +84,13 @@ function Cultivos() {
                             Cultivos
                         </div>
                         <div className="col-md-2 btn_anadir">
-                            <button className="btn btn-primary" onClick={() => {
-                                window.location.href = "/cultivos/agregar";
-                            }}>
-                                Añadir
-                            </button>
-                            {/* <button className="btn btn-primary" onClick={() => {
-                            this.props.history.push('/cultivos/agregar');
-                        }}>Añadir</button> */}
-
+                            {rolUser !== "userGestion" ?
+                                <button className="btn btn-primary" onClick={() => {
+                                    window.location.href = "/cultivos/agregar";
+                                }}>
+                                    Añadir
+                                </button>
+                                : null}
                         </div>
                     </div>
                 </div>

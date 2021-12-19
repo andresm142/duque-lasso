@@ -29,8 +29,8 @@ function Gestion() {
     });   // Detalle del cultivo seleccionado
 
     const [input, setInput] = useState({
-        area_destinada: null,
-        fecha_siembra: null,
+        area_destinada: "",
+        fecha_siembra: "",
     });
 
     // Cuando se cambia la pagina de predios asignados
@@ -63,6 +63,7 @@ function Gestion() {
         setPredio(id);
     }
 
+    // Al escoger un cultivo de la lista
     const handleCultivo = (id) => {
         setEstadoInput(false);
         console.log(id);
@@ -113,27 +114,41 @@ function Gestion() {
 
     const establecerFecha = (e) => {
         const semanas = detalleCultivo.tiempo_cosecha_semana;
-     
+
         //  sumar semanas a la fecha de siembra
         const fecha = new Date(e);
         fecha.setDate(fecha.getDate() + semanas * 7 + 1);
         setFecha(fecha.toLocaleDateString());
-        const fecha_siembra =new Date(e);
+        const fecha_siembra = new Date(e);
         fecha_siembra.setDate(fecha_siembra.getDate() + 1);
         setFechaSiembra(fecha_siembra.toLocaleDateString());
-        console.log("Fecha siembra",fechaSiembra)
-        console.log("Fecha recoleccion",fecha.toLocaleDateString())
+        console.log("Fecha siembra", fechaSiembra)
+        console.log("Fecha recoleccion", fecha.toLocaleDateString())
     }
 
     // Al enviar el formulario
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = JSON.parse(localStorage.getItem('token'));
+        if (cultivo.length === 0 || predio.length === 0) {
+            alert("Debe seleccionar un predio y un cultivo ");
+            return;
+        }
+        if (input.area_destinada === "") {
+            alert("Debe ingresar una cantidad en el area destinada");
+            return;
+        }
+        if (input.fecha_siembra === "") {
+            alert("Debe ingresar una fecha de siembra");
+            return;
+        }
+        
         const data = {
             area_destinada: detalleCultivo.area_destinada,
             fecha_siembra: fechaSiembra,
             fecha_recoleccion: fecha
         }
+        
         try {
             axios.put(`${BASE_URL}predios/${predio}/cultivos/${cultivo}/recolectar`, data, {
 
@@ -180,7 +195,11 @@ function Gestion() {
                 }).then(res => {
                     console.log(res.data.cultivos.nombre);
                     setDetalleCultivo(res.data.cultivos);
-                    setTotalElements(res.data.totalElements);
+                    if (res.data.totalElements) {
+                        setTotalElements(res.data.totalElements);
+                    } else {
+                        setTotalElements(0);
+                    }
 
                 });
             } catch (err) {
@@ -209,9 +228,13 @@ function Gestion() {
                     limit: limit
                 }
             }).then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setPredios(res.data.predios);
-                setTotalElements(res.data.totalElements);
+                if (res.data.totalElements) {
+                    setTotalElements(res.data.totalElements);
+                } else {
+                    setTotalElements(0);
+                }
                 setShowLoading(false);
                 // console.log(res.data.cultivos[0].cultivo.nombre);
 
@@ -346,7 +369,8 @@ function Gestion() {
                                                 <input type="date" className="form-control" name="fecha_siembra" id="fecha_siembra"
                                                     value={input.fecha_siembra}
                                                     onChange={handleChange}
-                                                    disabled={estadoInput}
+                                                    readOnly={estadoInput}
+                                                    
                                                 />
 
                                             </div>
@@ -411,7 +435,7 @@ function Gestion() {
                          
                     } */}
                     {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
-                         listaPrediosAsignados 
+                        listaPrediosAsignados
                     }
                     {/* <ListaCultivosAsignados /> */}
                     <div className="d-flex justify-content-center mt-2 ">

@@ -9,15 +9,30 @@ import ListaPrediosNoAsignados from './components/ListaPrediosNoAsignados';
 import AutocompletarUserGestion from './components/AutocompleteUserGestion';
 import Paginacion from "./components/Pagination";
 import { Spinner } from "react-bootstrap";
+import Permisos from '../services/Permisos';
 
+const pagina = "configuracion";
+let permitir = false;
 
 function Configuracion() {
-    
+
+    // Obterner permisos para cargar esta pagina
+
+    useEffect(() => {
+        const temp = async () => {
+            const permiso = await Permisos(pagina);
+            
+            permitir = permiso;
+        }
+        temp();
+        
+    }, []);
+
     const limit = 10;
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [showLoading, setShowLoading] = useState(true);
-    
+
     const [predio, setPredio] = useState([]);       // Predio seleccionado
     const [detallePredio, setDetallePredio] = useState({
         latitud: "",
@@ -38,7 +53,7 @@ function Configuracion() {
 
 
 
-    
+
 
     sessionStorage.setItem("paginaActiva", JSON.stringify({
         home: "nav_link text-white",
@@ -58,8 +73,9 @@ function Configuracion() {
         valor_semilla: 0
     });
 
+    // Obtener parametros
     useEffect(() => {
-
+        
         const getParametros = async () => {
             const token = JSON.parse(localStorage.getItem('token'));
             try {
@@ -87,6 +103,7 @@ function Configuracion() {
         getParametros();
     }, []);
 
+    // Al cambiar los parametros
     const handleChange = (e) => {
         setParametros({
             ...parametros,
@@ -94,6 +111,7 @@ function Configuracion() {
         });
     }
 
+    // Actualizar parametros
     const updateParametros = async () => {
         const token = JSON.parse(localStorage.getItem('token'));
         try {
@@ -114,6 +132,7 @@ function Configuracion() {
         }
     }
 
+    // crear parametros
     const createParametros = async () => {
         const token = JSON.parse(localStorage.getItem('token'));
         try {
@@ -152,6 +171,7 @@ function Configuracion() {
 
     // obtener los detalles del predio seleccionado
     useEffect(() => {
+        
         if (predio.length > 0) {
 
             const token = JSON.parse(localStorage.getItem('token'));
@@ -245,6 +265,7 @@ function Configuracion() {
 
     // Obtener los predios asignados
     useEffect(() => {
+        
         const token = JSON.parse(localStorage.getItem('token'));
         const getPredios = async () => {
 
@@ -313,15 +334,15 @@ function Configuracion() {
         setFiltrarPredio(e.target.value);
     }
 
- 
 
-    const listarPrediosasignados = prediosAsignados.map((predio,) => 
+
+    const listarPrediosasignados = prediosAsignados.map((predio,) =>
         <ListaPrediosAsignados
             key={predio._id}
             predio={predio} />
     );
 
-    const listarPrediosNoAsignados = prediosNoAsignados.map((predio,) => 
+    const listarPrediosNoAsignados = prediosNoAsignados.map((predio,) =>
         <ListaPrediosNoAsignados
             key={predio._id}
             predio={predio} />
@@ -329,221 +350,226 @@ function Configuracion() {
 
     return (
         <Fragment>
+            {permitir ?
+                <Fragment>
+                    {/* ---------------------   CONIGURACIÓN DE PARAMETROS ---------------  */}
 
-            {/* ---------------------   CONIGURACIÓN DE PARAMETROS ---------------  */}
-            <form onSubmit={handleSubmit} className="container container_detalles">
+                    <form onSubmit={handleSubmit} className="container container_detalles">
 
-                <div className="text-center header_principal">
-                    <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>CONIGURACIÓN DE PARAMETROS</h2>
-                </div>
-                <div className="container detalles_cultivo">
-
-                    <div className="row fila_detalles">
-                        <div className="col-1 circulo text-center">
-
-                            <i className="fas fa-circle"></i>
-
+                        <div className="text-center header_principal">
+                            <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>CONIGURACIÓN DE PARAMETROS</h2>
                         </div>
-                        <div className="col-8 descripcion">
-                            Valor metro cúbico de agua
-                        </div>
-                        <div className="col-3 valor text-end">
-                            <input type="number" className="valor_input text-end" name="valor_agua" placeholder="20" id="cantidad_semilla" style={{ width: "95%" }}
-                                value={parametros.valor_agua}
-                                onChange={handleChange}
-                            />
+                        <div className="container detalles_cultivo">
 
-                        </div>
-                    </div>
-                    <div className="row fila_detalles">
-                        <div className="col-1 circulo text-center">
+                            <div className="row fila_detalles">
+                                <div className="col-1 circulo text-center">
 
-                            <i className="fas fa-circle"></i>
+                                    <i className="fas fa-circle"></i>
 
-                        </div>
-                        <div className="col-8 descripcion">
-                            Valor de cada semilla
-                        </div>
-                        <div className="col-3 valor text-end">
-                            <input type="number" className="valor_input text-end" name="valor_semilla" placeholder="20" id="cantidad_semilla" style={{ width: "95%" }}
-                                value={parametros.valor_semilla}
-                                onChange={handleChange}
-                            />
+                                </div>
+                                <div className="col-8 descripcion">
+                                    Valor metro cúbico de agua
+                                </div>
+                                <div className="col-3 valor text-end">
+                                    <input type="number" className="valor_input text-end" name="valor_agua" placeholder="20" id="cantidad_semilla" style={{ width: "95%" }}
+                                        value={parametros.valor_agua}
+                                        onChange={handleChange}
+                                    />
 
-                        </div>
-                    </div>
-                    <div className="row fila_detalles">
-                        <div className="col-1 circulo text-center">
+                                </div>
+                            </div>
+                            <div className="row fila_detalles">
+                                <div className="col-1 circulo text-center">
 
-                            <i className="fas fa-circle"></i>
+                                    <i className="fas fa-circle"></i>
 
-                        </div>
-                        <div className="col-8 descripcion">
-                            Valor del kilogramo de fertilizante.
-                        </div>
-                        <div className="col-3 valor text-end">
-                            <input type="number" className="valor_input text-end" name="valor_fertilizante" placeholder="20" id="cantidad_semilla" style={{ width: "95%" }}
-                                value={parametros.valor_fertilizante}
-                                onChange={handleChange}
-                            />
+                                </div>
+                                <div className="col-8 descripcion">
+                                    Valor de cada semilla
+                                </div>
+                                <div className="col-3 valor text-end">
+                                    <input type="number" className="valor_input text-end" name="valor_semilla" placeholder="20" id="cantidad_semilla" style={{ width: "95%" }}
+                                        value={parametros.valor_semilla}
+                                        onChange={handleChange}
+                                    />
 
-                        </div>
-                    </div>
-                </div>
-                <div className="footer_principal precio">
-                    <div className="row">
+                                </div>
+                            </div>
+                            <div className="row fila_detalles">
+                                <div className="col-1 circulo text-center">
 
-                        <div className="col-12">
-                            <div className="d-flex justify-content-end gap-3">
-                                <button className="btn btn-primary" >Guardar</button>
+                                    <i className="fas fa-circle"></i>
 
+                                </div>
+                                <div className="col-8 descripcion">
+                                    Valor del kilogramo de fertilizante.
+                                </div>
+                                <div className="col-3 valor text-end">
+                                    <input type="number" className="valor_input text-end" name="valor_fertilizante" placeholder="20" id="cantidad_semilla" style={{ width: "95%" }}
+                                        value={parametros.valor_fertilizante}
+                                        onChange={handleChange}
+                                    />
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </form>
+                        <div className="footer_principal precio">
+                            <div className="row">
 
-
-            {/* ---------------------   ASIGNACION DE PREDIOS ---------------  */}
-            <form onSubmit={handleAsignarPredio} className="container container_detalles mt-2">
-                <div className="text-center header_principal">
-                    <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>ASIGNACIÓN DE PREDIOS</h2>
-                </div>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-6">
-                            <label htmlFor="" className="header_text_label m-2 mt-2">Predio</label>
-                            <AutocompletarPredios handlePredio={handlePredio}
-                             />
-
-                            <div className="container">
-                                <div className="row" style={{ alignItems: "center" }}>
-                                    <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio</label>
-                                    <div className="col-4">
-                                        <img src={Logo} alt="" className="img-fluid" />
-                                    </div>
-                                    <div className="col-8">
-                                        <div className="row">
-                                            <label htmlFor="" className="header_text_label text-center m-2 mt-2">Ubicación</label>
-                                            <div className="col-6">
-                                                <label htmlFor="" className="">Lactitud</label>
-                                                <input type="text" className="form-control" name="lactitud" id="lactitud"
-                                                    value={detallePredio.latitud}
-                                                    readOnly
-                                                />
-
-                                            </div>
-                                            <div className="col-6">
-                                                <label htmlFor="" className="">Longitud</label>
-                                                <input type="text" className="form-control" name="longitud" id="longitud"
-                                                    value={detallePredio.longitud}
-                                                    readOnly
-                                                />
-                                            </div>
-
-                                            {detallePredio.asignado ?
-                                                <div className="text-center mt-2 text-danger font-weight-bold">
-                                                    Predio asignado</div> : null
-                                            }
-                                        </div>
+                                <div className="col-12">
+                                    <div className="d-flex justify-content-end gap-3">
+                                        <button className="btn btn-primary" >Guardar</button>
 
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <div className="col-6">
-                            <label htmlFor="" className="header_text_label m-2 mt-2">Usuario de gestión</label>
-                            <AutocompletarUserGestion handleUsuarioGestion={handleUsuarioGestion} />
+                    </form>
 
-                            <div className="container">
-                                <div className="row" style={{ alignItems: "center" }}>
-                                    <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del usuario</label>
-                                    <div className="col-4">
-                                        <img src={LogoUser} alt="" className="img-fluid" />
+
+                    {/* ---------------------   ASIGNACION DE PREDIOS ---------------  */}
+                    <form onSubmit={handleAsignarPredio} className="container container_detalles mt-2">
+                        <div className="text-center header_principal">
+                            <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>ASIGNACIÓN DE PREDIOS</h2>
+                        </div>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-6">
+                                    <label htmlFor="" className="header_text_label m-2 mt-2">Predio</label>
+                                    <AutocompletarPredios handlePredio={handlePredio}
+                                    />
+
+                                    <div className="container">
+                                        <div className="row" style={{ alignItems: "center" }}>
+                                            <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio</label>
+                                            <div className="col-4">
+                                                <img src={Logo} alt="" className="img-fluid" />
+                                            </div>
+                                            <div className="col-8">
+                                                <div className="row">
+                                                    <label htmlFor="" className="header_text_label text-center m-2 mt-2">Ubicación</label>
+                                                    <div className="col-6">
+                                                        <label htmlFor="" className="">Lactitud</label>
+                                                        <input type="text" className="form-control" name="lactitud" id="lactitud"
+                                                            value={detallePredio.latitud}
+                                                            readOnly
+                                                        />
+
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <label htmlFor="" className="">Longitud</label>
+                                                        <input type="text" className="form-control" name="longitud" id="longitud"
+                                                            value={detallePredio.longitud}
+                                                            readOnly
+                                                        />
+                                                    </div>
+
+                                                    {detallePredio.asignado ?
+                                                        <div className="text-center mt-2 text-danger font-weight-bold">
+                                                            Predio asignado</div> : null
+                                                    }
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="col-8">
-                                        <div className="row">
-                                            <div className="col-4">
-                                                <label htmlFor="correo" className="header_text_label text-center m-2 mt-2">Correo</label>
 
+                                </div>
+                                <div className="col-6">
+                                    <label htmlFor="" className="header_text_label m-2 mt-2">Usuario de gestión</label>
+                                    <AutocompletarUserGestion handleUsuarioGestion={handleUsuarioGestion} />
+
+                                    <div className="container">
+                                        <div className="row" style={{ alignItems: "center" }}>
+                                            <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del usuario</label>
+                                            <div className="col-4">
+                                                <img src={LogoUser} alt="" className="img-fluid" />
                                             </div>
                                             <div className="col-8">
-                                                <input type="text" className="form-control" name="correo" id="correo"
-                                                    value={detalleUsuario.email}
-                                                    readOnly
-                                                />
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        <label htmlFor="correo" className="header_text_label text-center m-2 mt-2">Correo</label>
 
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <input type="text" className="form-control" name="correo" id="correo"
+                                                            value={detalleUsuario.email}
+                                                            readOnly
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-2">
+                                                    <div className="col-4">
+                                                        <label htmlFor="telefono" className="header_text_label text-center m-2 mt-2">Telefono</label>
+
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <input type="text" className="form-control" name="telefono" id="telefono"
+                                                            value={detalleUsuario.telefono}
+                                                            readOnly
+
+                                                        />
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="row mt-2">
-                                            <div className="col-4">
-                                                <label htmlFor="telefono" className="header_text_label text-center m-2 mt-2">Telefono</label>
 
-                                            </div>
-                                            <div className="col-8">
-                                                <input type="text" className="form-control" name="telefono" id="telefono"
-                                                    value={detalleUsuario.telefono}
-                                                    readOnly
 
-                                                />
-
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="footer_principal">
+                            <div className="row">
+
+                                <div className="col-12">
+                                    <div className="d-flex justify-content-end gap-3">
+                                        <button className="btn btn-primary" >Guardar</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
 
 
+                    {/* ---------------------   LISTA DE PREDIOS ASIGNADOS    ---------------  */}
+                    <div className="container container_detalles mt-2">
+                        <div className="text-center header_principal">
+                            <div className='row' style={{ alignItems: "center" }}>
+                                <div className='col-2'></div>
+                                <div className='col-8'>
+                                    <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>PREDIOS ASIGNADOS</h2>
+                                </div>
+                                <div className='col-2'>
+                                    <label htmlFor="asignado" className="header_text_label ">Filtrar por</label>
+                                    <select className='form-select' name='asignado' id='selectOtion' value={filtrarPredio}
+                                        onChange={onSeleccionarChange}>
+
+                                        <option value='asignado'>Asignados</option>
+                                        <option value='noAsignado'>No Asignados</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="container">
+                            {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
+                                filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
+
+
+                            }
+                            <div className="d-flex justify-content-center mt-2 ">
+                                <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="footer_principal">
-                    <div className="row">
 
-                        <div className="col-12">
-                            <div className="d-flex justify-content-end gap-3">
-                                <button className="btn btn-primary" >Guardar</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-
-
-            {/* ---------------------   LISTA DE PREDIOS ASIGNADOS    ---------------  */}
-            <div className="container container_detalles mt-2">
-                <div className="text-center header_principal">
-                    <div className='row' style={{ alignItems: "center" }}>
-                        <div className='col-2'></div>
-                        <div className='col-8'>
-                            <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>PREDIOS ASIGNADOS</h2>
-                        </div>
-                        <div className='col-2'>
-                            <label htmlFor="asignado" className="header_text_label ">Filtrar por</label>
-                            <select className='form-select' name='asignado' id='selectOtion' value={filtrarPredio}
-                                onChange={onSeleccionarChange}>
-
-                                <option value='asignado'>Asignados</option>
-                                <option value='noAsignado'>No Asignados</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-                <div className="container">
-                {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
-                    filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
-                         
-                    
-                }
-                    <div className="d-flex justify-content-center mt-2 ">
-                        <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
-                    </div>
-                </div>
-            </div>
+                </Fragment>
+                : null}
         </Fragment>
     );
 }

@@ -3,8 +3,11 @@ import { Fragment } from 'react';
 import axios from 'axios';
 import BASE_URL from "../../services/.config";
 
+const rolUser = "";
+
 function ListaPredios(props) {
     const token = JSON.parse(localStorage.getItem('token'));
+    const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
 
     const onDetalles = () => {
 
@@ -63,10 +66,13 @@ function ListaPredios(props) {
                     </div>
 
                     <div className="col-md-2 btn_acciones">
+                    {rolUser !== "userGestion" ?
+                        <Fragment>
                         <button className="btn btn-primary" onClick={onEditar}>Editar</button>
                         <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
                         {/* <button className="btn btn-primary" onClick={onDetalles}>Ver más</button> */}
-
+                        </Fragment>
+                        :null}
                     </div>
                 </div>
 

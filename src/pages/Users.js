@@ -17,7 +17,7 @@ function Users() {
   const limit = 10;
 
   const token = JSON.parse(localStorage.getItem('token'));
-  const api_url =BASE_URL + "users/all?page=" +
+  const api_url = BASE_URL + "users/all?page=" +
     page +
     "&limit=" +
     limit;
@@ -36,7 +36,7 @@ function Users() {
     console.log(modo);
     console.log(usuario);
     if (modo === "nuevo") {
-      axios.post(BASE_URL+"users/new", usuario,
+      axios.post(BASE_URL + "users/new", usuario,
         {
           headers: {
             Authorization: 'Bearer ' + token.token
@@ -74,12 +74,12 @@ function Users() {
 
     };
     if (modo === "editar") {
-      
-      if (usuario._id===usuarioActual.id) {
+
+      if (usuario._id === usuarioActual.id) {
         alert("No puede editar su propio usuario");
         return;
       }
-      
+
       axios.put(`${BASE_URL}users/edit/${usuario._id}`, usuario,
         {
           headers: {
@@ -131,7 +131,7 @@ function Users() {
 
   const onEliminarUsuario = (usuario) => {
     // comprobar si el usuario es el mismo que esta logueado
-    
+
     if (usuario === usuarioActual.id) {
       alert("No puede eliminar su propio usuario");
       return;
@@ -202,12 +202,14 @@ function Users() {
         .catch(error => {
           if (error.response) {
 
-            alert(error.response.data.message);
-            
+            // alert(error.response.data.message);
+            if (error.response.status === 401) {
+              window.location.href = "/accessDenied";
+            }
             setShowLoading(false);
           } else {
             alert("Error, contacte con el administrador");
-            
+
             setShowLoading(false);
           }
 
@@ -240,15 +242,16 @@ function Users() {
 
   return (
     <Fragment>
-      
+
       <div className="container container_header">
         <div className="row">
           <div className="col-md-10 titulo">
             Usuarios
           </div>
           <div className="col-md-2 btn_anadir">
-            <button className="btn btn-primary" onClick={onAnadirUsuario}>Añadir</button>
-
+            {usuarioActual.rol === "admin" ?
+              <button className="btn btn-primary" onClick={onAnadirUsuario}>Añadir</button>
+              : null}
           </div>
         </div>
       </div>

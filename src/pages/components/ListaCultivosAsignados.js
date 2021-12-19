@@ -12,11 +12,41 @@ function ListaCultivosAsignados(props) {
     const [totalElements, setTotalElements] = useState(props.predio.cultivos.length);
     const [showLoading, setShowLoading] = useState(true);
     const [cultivos, setCultivos] = useState([]);
+    const [parametros, setParametros] = useState([]);
 
     // Cuando se cambia la pagina de predios asignados
     const handlePageClick = (e) => {
         setPage(e);
     }
+
+    // Obtener todos los parametros
+    const getParametros = () => {
+        const token = JSON.parse(localStorage.getItem('token'));
+        try {
+            axios.get(BASE_URL + "parametros/", {
+                headers: {
+                    Authorization: `Bearer ${token.token}`
+                }
+            })
+
+                .then(res => {
+                    // console.log(res);
+                    // console.log(res.data.parametros[0]);
+                    setParametros(res.data.parametros[0]);
+                })
+                .catch(err => {
+                    if (err.response) {
+                        alert(err.response.data.message);
+                    } else {
+                        alert("Error, contacte con el administrador");
+                    }
+                    console.log(err);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     // Obtener cultivos por id
     const getCultivos = (id) => {
@@ -47,6 +77,7 @@ function ListaCultivosAsignados(props) {
     }
     useEffect(() => {
         getCultivos(props.predio.cultivos[page - 1]);
+        getParametros();
     }, [page, props.predio.cultivos, props.fecha]);
 
 
@@ -125,7 +156,7 @@ function ListaCultivosAsignados(props) {
                          
                     } */}
                     {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
-                        <ListaDetallesCultivosAsignados cultivo={cultivos} predio_id={props.predio._id} />
+                        <ListaDetallesCultivosAsignados cultivo={cultivos} predio_id={props.predio._id} parametros={parametros} />
                     }
                     <div className="d-flex justify-content-end mt-2 mb-2">
                         <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />

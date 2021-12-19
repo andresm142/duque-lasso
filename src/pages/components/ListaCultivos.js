@@ -1,46 +1,49 @@
 import Logo from "../logo.png";
-import { Fragment} from 'react';
+import { Fragment } from 'react';
 import axios from 'axios';
 import BASE_URL from "../../services/.config";
 
-const url=BASE_URL+'cultivos/';
+const url = BASE_URL + 'cultivos/';
 
+const rolUser = "";
 
 function ListaCultivos(props) {
-    console.log(props);
+
+    const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
+
     const token = JSON.parse(localStorage.getItem('token'));
-    const onDetalles =()=>{
-        
-        window.location.href = "/cultivos/detalles?id="+props._id;
-        
-    }
-    
-    const onEditar =()=>{
-        window.location.href = "/cultivos/edit/"+props._id;
+    const onDetalles = () => {
+
+        window.location.href = "/cultivos/detalles?id=" + props._id;
+
     }
 
-    const onEliminar =()=>{
+    const onEditar = () => {
+        window.location.href = "/cultivos/edit/" + props._id;
+    }
+
+    const onEliminar = () => {
         if (window.confirm("¿Esta seguro de eliminar este cultivo?")) {
-            axios.delete(url+'delete/'+props._id,
-            {
-                headers: {
-                    Authorization: `Bearer ${token.token}`
-                }
-            })
-            .then(res => {
-                alert("Eliminado");
-                window.location.reload();
-            })
-            .catch(err => {
-                if (err.response) {
+            axios.delete(url + 'delete/' + props._id,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.token}`
+                    }
+                })
+                .then(res => {
+                    alert("Eliminado");
+                    window.location.reload();
+                })
+                .catch(err => {
+                    if (err.response) {
 
-                    alert(err.response.data.message);
-                  } else {
-                    alert("Error, contacte con el administrador");
-                  }
-            });
+                        alert(err.response.data.message);
+                    } else {
+                        alert("Error, contacte con el administrador");
+                    }
+                });
         }
-                
+
     }
 
     return (
@@ -65,11 +68,15 @@ function ListaCultivos(props) {
                     </div>
 
                     <div className="col-md-2 btn_acciones">
-                        <button className="btn btn-primary"onClick={onEditar}>Editar</button>
-                        <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
+                        {rolUser !== "userGestion" ?
+                            <Fragment>
+                                <button className="btn btn-primary" onClick={onEditar}>Editar</button>
+                                <button className="btn btn-danger" onClick={onEliminar}>Eliminar</button>
+                            </Fragment>
+                            : null}
                         <button className="btn btn-primary" onClick={onDetalles}>Ver más</button>
                         {/* Boton para ir a la pagina cultivosDetalles */}
-                        
+
                     </div>
                 </div>
             </div>
