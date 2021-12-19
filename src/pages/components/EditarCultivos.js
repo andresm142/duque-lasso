@@ -93,8 +93,10 @@ function EditarCultivos() {
     useEffect(() => {
         
         if (modo === "edit") {
+            const id =window.location.pathname.split("/")[3];
             setShowLoading(true);
-            axios.get(BASE_URL + "cultivos/edit?id=" + window.location.href.split("id=")[1], {
+            // axios.get(BASE_URL + "cultivos/edit?id=" + window.location.href.split("id=")[1], {
+                axios.get(BASE_URL + "cultivos/" +id, {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }

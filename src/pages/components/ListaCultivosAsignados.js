@@ -12,7 +12,7 @@ function ListaCultivosAsignados(props) {
     const [totalElements, setTotalElements] = useState(props.predio.cultivos.length);
     const [showLoading, setShowLoading] = useState(true);
     const [cultivos, setCultivos] = useState([]);
-    
+
     // Cuando se cambia la pagina de predios asignados
     const handlePageClick = (e) => {
         setPage(e);
@@ -46,13 +46,13 @@ function ListaCultivosAsignados(props) {
         }
     }
     useEffect(() => {
-        getCultivos(props.predio.cultivos[page-1]);
-    }, [page, props.predio.cultivos,props.fecha]);
+        getCultivos(props.predio.cultivos[page - 1]);
+    }, [page, props.predio.cultivos, props.fecha]);
 
 
     return (
         <Fragment>
-            
+
             <div className="container lista_cultivos">
                 <div className="row" style={{ alignItems: "center" }}>
                     <div className="col-md-3 logo ">
@@ -88,10 +88,10 @@ function ListaCultivosAsignados(props) {
                             </div>
                         </div>
                     </div>
+                    {/* 
+                    <div className="col-md-2 btn_acciones justify-content-center">
 
-                    {/* <div className="col-md-2 btn_acciones justify-content-center">
-
-                        <button className="btn btn-danger" o>Desasignar</button>
+                        <button className="btn btn-danger" >Desasignar</button>
 
                     </div> */}
                 </div>
@@ -124,9 +124,9 @@ function ListaCultivosAsignados(props) {
                     {/* {filtrarPredio === 'asignado' ? listarPrediosasignados : listarPrediosNoAsignados
                          
                     } */}
-                     {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
-                    <ListaDetallesCultivosAsignados cultivo={cultivos}/>
-                }
+                    {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> :
+                        <ListaDetallesCultivosAsignados cultivo={cultivos} predio_id={props.predio._id} />
+                    }
                     <div className="d-flex justify-content-end mt-2 mb-2">
                         <Paginacion itemsPerPage={limit} totalItems={totalElements} onChange={handlePageClick} />
 

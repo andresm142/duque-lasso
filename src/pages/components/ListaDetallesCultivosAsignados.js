@@ -1,7 +1,37 @@
 import Logo from "../logo.png";
 import { Fragment, useState } from 'react';
+import axios from 'axios';
+import BASE_URL from "../../services/.config";
 
 function ListaDetallesCultivosAsignados(props) {
+    console.log(props);
+    const onDesasignar = () => {
+        const id_predio = props.predio_id;
+        const id_cultivo = props.cultivo._id;
+        const token = JSON.parse(localStorage.getItem('token'));
+        if (window.confirm("¿Esta seguro de desasignar este cultivo?")) {
+            
+            axios.delete(BASE_URL + `predios/${id_predio}/cultivos/${id_cultivo}/desasignar`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.token}`
+                    }
+                })
+                .then(res => {
+                    alert("Desasignado");
+                    window.location.reload();
+                })
+                .catch(err => {
+                    if (err.response) {
+                        alert(err.response.data.message);
+                    } else {
+                        alert("Error, contacte con el administrador");
+                    }
+                }
+                );
+        }
+    }
+
     return (
         <Fragment>
             <div className="container lista_cultivos mb-2">
@@ -12,7 +42,7 @@ function ListaDetallesCultivosAsignados(props) {
                         </div>
                     </div>
 
-                    <div className="col-md-9 nombre_descripcion">
+                    <div className="col-md-7 nombre_descripcion">
                         <div className="nombre">
                             {props.cultivo.nombre}
                         </div>
@@ -20,6 +50,13 @@ function ListaDetallesCultivosAsignados(props) {
                             {props.cultivo.descripcion}
                         </div>
                     </div>
+                    
+                    <div className="col-md-2 btn_acciones justify-content-center">
+
+                        <button className="btn btn-danger" onClick={onDesasignar}>Desasignar</button>
+
+                    </div>
+
                 </div>
                 <hr />
                 <div className="row mb-2">

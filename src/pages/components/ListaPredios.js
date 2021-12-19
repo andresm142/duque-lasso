@@ -12,7 +12,7 @@ function ListaPredios(props) {
 
     }
     const onEditar = () => {
-        window.location.href = "/predios/edit?id=" + props._id;
+        window.location.href = "/predios/edit/" + props._id;
     }
 
     const onEliminar = () => {

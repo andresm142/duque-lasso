@@ -39,11 +39,11 @@ function Gestion() {
     }
 
     const [estadoInput, setEstadoInput] = useState(true);
-    const [fechaRecoleccion, setFechaRecoleccion] = useState();
+    const [fechaSiembra, setFechaSiembra] = useState();
     const [mostrarFecha, setMostrarFecha] = useState(false);
     const [cultivos, setCultivos] = useState([]);
     const [predios, setPredios] = useState([]);
-    const [fecha, setFecha] = useState(new Date().toLocaleDateString());
+    const [fecha, setFecha] = useState(new Date().toLocaleDateString());        // Fecha recoleccion
 
     sessionStorage.setItem("paginaActiva", JSON.stringify({
         home: "nav_link text-white",
@@ -113,20 +113,17 @@ function Gestion() {
 
     const establecerFecha = (e) => {
         const semanas = detalleCultivo.tiempo_cosecha_semana;
-
-        // Convertir la fecha en semanas
-        const fecha = new Date(e);
-        const fecha_semanas = Math.floor((fecha.getTime() - new Date(2020, 11, 8).getTime()) / (1000 * 60 * 60 * 24 * 7));
-        const fecha_final = fecha_semanas + semanas;
-        setFechaRecoleccion(fecha_final);
+     
         //  sumar semanas a la fecha de siembra
-        const fecha2 = new Date(e);
-        console.log(e);
-        console.log(fecha2);
-        fecha2.setDate(fecha2.getDate() + semanas * 7 + 1);
-        setFecha(fecha2.toLocaleDateString());
+        const fecha = new Date(e);
+        fecha.setDate(fecha.getDate() + semanas * 7 + 1);
+        setFecha(fecha.toLocaleDateString());
+        const fecha_siembra =new Date(e);
+        fecha_siembra.setDate(fecha_siembra.getDate() + 1);
+        setFechaSiembra(fecha_siembra.toLocaleDateString());
+        console.log("Fecha siembra",fechaSiembra)
+        console.log("Fecha recoleccion",fecha.toLocaleDateString())
     }
-
 
     // Al enviar el formulario
     const handleSubmit = (e) => {
@@ -134,8 +131,8 @@ function Gestion() {
         const token = JSON.parse(localStorage.getItem('token'));
         const data = {
             area_destinada: detalleCultivo.area_destinada,
-            fecha_siembra: fecha,
-            fecha_recoleccion: fechaRecoleccion
+            fecha_siembra: fechaSiembra,
+            fecha_recoleccion: fecha
         }
         try {
             axios.put(`${BASE_URL}predios/${predio}/cultivos/${cultivo}/recolectar`, data, {
@@ -294,6 +291,9 @@ function Gestion() {
                                             } */}
                                         </div>
                                         <div className="row mt-2">
+                                            Area total: {detallePredio.area}
+                                        </div>
+                                        <div className="row">
                                             Area asignada: {detallePredio.areaAsignada}
                                         </div>
                                         <div className="row">
@@ -359,7 +359,7 @@ function Gestion() {
                                             {mostrarFecha ? <h5>Tiempo de cosecha: {detalleCultivo.tiempo_cosecha_semana} semanas</h5> : null}
                                         </div>
                                         <div className="row mt-2">
-                                            {mostrarFecha ? <h5>Fecha probable de recolección: {fechaRecoleccion} semanas ({fecha}) </h5> : null}
+                                            {mostrarFecha ? <h5>Fecha probable de recolección: {fecha} </h5> : null}
 
                                         </div>
 
@@ -394,7 +394,7 @@ function Gestion() {
                         <div className='col-8'>
                             <h2 style={{ color: "var(--color-usuario)", fontWeight: "bold" }}>CULTIVOS</h2>
                         </div>
-                        <div className='col-2'>
+                        {/* <div className='col-2'>
                             <label htmlFor="asignado" className="header_text_label ">Filtrar por</label>
                             <select className='form-select' name='asignado' id='selectOtion'
                             >
@@ -402,7 +402,7 @@ function Gestion() {
                                 <option value='asignado'>Asignados</option>
                                 <option value='noAsignado'>No Asignados</option>
                             </select>
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

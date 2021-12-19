@@ -83,16 +83,21 @@ function EditarPredios(props) {
 
     useEffect(() => {
         if (modo === "edit") {
+            const id = window.location.pathname.split("/")[3];
             setShowLoading(true);
-            axios.get(BASE_URL + "predios/edit?id=" + window.location.href.split("id=")[1], {
+            // axios.get(BASE_URL + "predios/edit?id=" + window.location.href.split("id=")[1], {
+            axios.get(BASE_URL + "predios/" + id, {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }
             })
                 .then(res => {
-                    
+
                     setPredios(res.data.predios);
-                    alert(res.data.message);
+                    if (res.data.message) {
+
+                        alert(res.data.message);
+                    }
                     setShowLoading(false);
                 })
                 .catch(err => {

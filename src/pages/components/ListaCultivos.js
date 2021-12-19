@@ -16,7 +16,7 @@ function ListaCultivos(props) {
     }
     
     const onEditar =()=>{
-        window.location.href = "/cultivos/edit?id="+props._id;
+        window.location.href = "/cultivos/edit/"+props._id;
     }
 
     const onEliminar =()=>{
