@@ -21,14 +21,28 @@ import AutocompleteSearch from "./pages/components/AutocompleteSearch";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState,useEffect } from "react";
 
-const rolUser = "";
+// const rolUser = "";
 
 function Sidebars(props) {
     const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
   
-    const [paginaActiva,setPaginaActiva] = useState("");
+    const [paginaActiva,setPaginaActiva] = useState(" ");
     useEffect(() => {
+        if(JSON.parse(sessionStorage.getItem("paginaActiva"))) {
         setPaginaActiva(JSON.parse(sessionStorage.getItem("paginaActiva")));
+        }else{
+            setPaginaActiva({
+                home: "nav_link active text-white",
+                cultivos: "nav_link text-white",
+                predios: "nav_link text-white",
+                users: "nav_link text-white",
+                gestion: "nav_link text-white",
+                profile: "nav_link nav-link dropdown-toggle ml-1 d-flex text-white",
+                coniguracion: "nav_link text-white",
+                accessDenied: "nav_link text-white",
+                pageNotFound: "nav_link text-white"
+            });
+        }
     }, []);
    
     const onCerrarSesion = () => {
@@ -140,7 +154,7 @@ function Sidebars(props) {
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <img src={LogoUser} alt="mdo" width="24" height="24" style={{ marginRight: "10px" }}
                             className="rounded-circle"></img>
-                        <span className="nav_name"> Usuario</span>
+                        <span className="nav_name">Usuario</span>
                     </a>
 
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">

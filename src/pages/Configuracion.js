@@ -441,7 +441,7 @@ function Configuracion() {
 
                                     <div className="container">
                                         <div className="row" style={{ alignItems: "center" }}>
-                                            <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio</label>
+                                            <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio: {detallePredio.nombre}</label>
                                             <div className="col-4">
                                                 <img src={detallePredio.imagen? `${BASE_URL}uploads/${detallePredio.imagen}`:Logo} alt="" className="img-fluid" />
                                             </div>
@@ -481,9 +481,9 @@ function Configuracion() {
 
                                     <div className="container">
                                         <div className="row" style={{ alignItems: "center" }}>
-                                            <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del usuario</label>
+                                            <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del usuario: {detalleUsuario.nombre} {detalleUsuario.apellido}</label>
                                             <div className="col-4">
-                                                <img src={detalleUsuario.imagen? `${BASE_URL}uploads/${detallePredio.imagen}`:LogoUser} alt="" className="img-fluid" />
+                                                <img src={LogoUser} alt="" className="img-fluid" />
                                             </div>
                                             <div className="col-8">
                                                 <div className="row">

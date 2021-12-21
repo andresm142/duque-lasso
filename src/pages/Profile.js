@@ -17,7 +17,7 @@ function Profile() {
     });
 
     const [imagen, setImagen] = useState(null);
-    const [filename, setFilename] = useState("");
+    const [filename, setFilename] = useState(Userlogo);
 
     const [pass, setPass] = useState({
         passActual: "",

@@ -249,7 +249,7 @@ function Users() {
             Usuarios
           </div>
           <div className="col-md-2 btn_anadir">
-            {usuarioActual.rol === "admin" ?
+            {usuarioActual.rol === "Admin" ?
               <button className="btn btn-primary" onClick={onAnadirUsuario}>Añadir</button>
               : null}
           </div>

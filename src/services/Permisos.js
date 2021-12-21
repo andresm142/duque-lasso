@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Fragment, useEffect, useState } from 'react';
 import BASE_URL from "../services/.config";
 
 export default async function Permisos(props) {

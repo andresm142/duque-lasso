@@ -7,7 +7,7 @@ import Paginacion from "./components/Pagination";
 import { Spinner } from "react-bootstrap";
 import Logo from "./logo.png";
 import BASE_URL from "../services/.config";
-import ListaPrediosAsignados from "./components/ListaPrediosAsignados";
+// import ListaPrediosAsignados from "./components/ListaPrediosAsignados";
 
 function Gestion() {
 
@@ -41,7 +41,7 @@ function Gestion() {
     const [estadoInput, setEstadoInput] = useState(true);
     const [fechaSiembra, setFechaSiembra] = useState();
     const [mostrarFecha, setMostrarFecha] = useState(false);
-    const [cultivos, setCultivos] = useState([]);
+    // const [cultivos, setCultivos] = useState([]);
     const [predios, setPredios] = useState([]);
     const [fecha, setFecha] = useState(new Date().toLocaleDateString());        // Fecha recoleccion
 

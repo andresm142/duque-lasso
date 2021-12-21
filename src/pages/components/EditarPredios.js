@@ -3,7 +3,6 @@ import { useEffect, useState, Fragment } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import BASE_URL from "../../services/.config";
-import URL_IMAGES from "../../services/.config";
 import Logo from "../logo.png";
 
 

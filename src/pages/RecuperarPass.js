@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import './style.css'
 import BASE_URL from '../services/.config';
-import { Spinner } from "react-bootstrap";
+// import { Spinner } from "react-bootstrap";
 import Logo from './logo.png';
 import axios from 'axios';
 
@@ -33,7 +33,7 @@ function RecuperarPass(props) {
                 }
             });
 
-    }, []);
+    }, [token]);
 
     const onRegresar = () => {
      window.location.href = "/";
