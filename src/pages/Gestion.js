@@ -134,10 +134,10 @@ function Gestion() {
             alert("Debe seleccionar un predio y un cultivo ");
             return;
         }
-        if (input.area_destinada === "") {
-            alert("Debe ingresar una cantidad en el area destinada");
-            return;
-        }
+        // if (input.area_destinada === "") {
+        //     alert("Debe ingresar una cantidad en el area destinada");
+        //     return;
+        // }
         if (input.fecha_siembra === "") {
             alert("Debe ingresar una fecha de siembra");
             return;
@@ -287,7 +287,7 @@ function Gestion() {
                                 <div className="row" style={{ alignItems: "center" }}>
                                     <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio: {detallePredio.nombre}</label>
                                     <div className="col-4">
-                                        <img src={Logo} alt="" className="img-fluid" />
+                                        <img src={detallePredio.imagen? `${BASE_URL}uploads/${detallePredio.imagen}`:Logo} alt="" className="img-fluid" />
                                     </div>
                                     <div className="col-8">
                                         <div className="row">
@@ -341,7 +341,7 @@ function Gestion() {
                                     {/* <span>{detalleCultivo.nombre}</span> */}
                                     {/* </div> */}
                                     <div className="col-4">
-                                        <img src={Logo} alt="" className="img-fluid" />
+                                        <img src={detalleCultivo.imagen? `${BASE_URL}uploads/${detalleCultivo.imagen}`:Logo} alt="" className="img-fluid" />
                                     </div>
                                     <div className="col-8">
                                         <div className="row">

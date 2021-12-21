@@ -1,5 +1,7 @@
 import UserLogo from "../user.png"
 import { useState, useEffect } from "react";
+import BASE_URL from "../../services/.config";
+
 function ListaUsuarios({ editarUsuario, eliminarUsuario, ...props }) {
 
     const onEliminarUsuario = () => {
@@ -26,7 +28,7 @@ function ListaUsuarios({ editarUsuario, eliminarUsuario, ...props }) {
             <div className="container header_detalles">
                 <div className="row">
                     <div className="col-md-2 logo_user">
-                        <img src={UserLogo} alt="User" className="img-fluid" />
+                        <img src={props.imagen? `${BASE_URL}uploads/${props.imagen}`:UserLogo} alt="User" className="img-fluid" style={{maxWidth:"70%"}} />
                     </div>
                     <div className="col-md-2 detalles">
                         <div className="titulo_nombre_detalles">

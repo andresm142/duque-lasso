@@ -44,7 +44,7 @@ function ListaDetallesCultivosAsignados(props) {
                 <div className="row" style={{ alignItems: "center" }}>
                     <div className="col-md-3 logo ">
                         <div className="header_img">
-                            <img src={Logo} alt="logo" className="img-fluid" />
+                            <img src={props.cultivo.imagen? `${BASE_URL}uploads/${props.cultivo.imagen}`:Logo} alt="logo" className="img-fluid" />
                         </div>
                     </div>
 

@@ -3,6 +3,8 @@
 import './bootstrap.css';
 import React from 'react';
 import Login from './pages/Login';
+import RecuperarPass from './pages/RecuperarPass';
+
 
 import Sidebars from './Sidebars';
 import useToken from './pages/components/useToken';
@@ -17,8 +19,12 @@ function App() {
   // const [isLogged, setIsLogged] = useState(sessionStorage.getItem("isLogged"));
 
   if (!token) {
-
-    return <Login setToken={setToken} />
+    if (window.location.pathname.split("/")[2] === "recuperar") {
+      return <RecuperarPass />
+      
+    } else {
+      return <Login setToken={setToken} />
+    }
   }
 
 
@@ -35,7 +41,7 @@ function App() {
 
   return (
     <div >
- 
+
       <Sidebars cerrarSesion={cerrarSesion} />
     </div>
   );

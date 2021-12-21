@@ -12,7 +12,7 @@ function EditarCultivos() {
     const [cultivos, setCultivos] = useState({
         nombre: "",
         descripcion: "",
-        imagen_scr: "",   //Pendiente
+        imagen: "https://lh3.googleusercontent.com/pw/AM-JKLUhM-b5l3b0_y1fLl6SCel-vfZ2Sd1o4XwvkkMxTIvMModGVvOUV175JkZJzWGbxrpj_1BwGUt8AKvw6DRbg21cBUEeP9Ty2T3RaD15AqHVRv3xT5uWZFSNYGluanDg45fJdarKNuCMNH9-E_d7Bv4=w516-h405-no?authuser=0",     //Default
         precio: 0,
         area_destinada: 0,
         cantidad_semillas_hectarea: 0,
@@ -27,6 +27,8 @@ function EditarCultivos() {
     });
 
     const [showLoading, setShowLoading] = useState(false);
+    const [imagen, setImagen] = useState(null);
+    const [filename, setFilename] = useState(cultivos.imagen);
 
     const modo = window.location.pathname.split("/")[2];
     console.log(modo);
@@ -34,18 +36,95 @@ function EditarCultivos() {
     const onCancelar = () => {
         window.history.back();
     };
-    const onGuardar = (e) => {
-        console.log(cultivos);
-        if (modo === "edit") {
-            axios.put(BASE_URL + `cultivos/edit/${cultivos._id}`, cultivos, {
+    const onGuardar = async (e) => {
+        if (imagen) {
+            // Se sube la imagen
+            const formData = new FormData();
+            console.log(imagen);
+            formData.append("imagen", imagen);
+
+            await axios.post(`${BASE_URL}images/uploads/`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token.token}`,
+                    'Content-Type': 'multipart/form-data'
+
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    setCultivos({
+                        ...cultivos,
+                        imagen: res.data.filename
+                    });
+                    if (modo === "edit") {
+                        editarCultivo(res.data.filename);
+                    } else if (modo === "agregar") {
+                        agregarCultivo(res.data.filename);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    setShowLoading(false);
+                });
+        }else{
+            if (modo === "edit") {
+                editarCultivo(null);
+            } else if (modo === "agregar") {
+                agregarCultivo(null);
+            }
+        }
+    };
+
+    const editarCultivo = (e) => {
+        let data = { ...cultivos };
+        if (e) {
+            data = {
+                ...cultivos,
+                imagen: e
+            }
+        }
+
+        axios.put(BASE_URL + `cultivos/edit/${cultivos._id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token.token}`
+            }
+        })
+            .then(res => {
+                console.log(res);
+                alert("Cultivo editado correctamente");
+                window.location.href = "/cultivos";
+            })
+            .catch(err => {
+                if (err.response) {
+
+                    alert(err.response.data.message);
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
+                console.log(err);
+            });
+
+    }
+    const agregarCultivo = (e) => {
+        let data = { ...cultivos };
+        if (e) {
+            data = {
+                ...cultivos,
+                imagen: e
+            }
+        }
+
+        try {
+
+            axios.post(BASE_URL + "cultivos/new", data, {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }
             })
                 .then(res => {
                     console.log(res);
-                    alert("Cultivo editado correctamente");
-                    window.history.back();
+                    alert("Cultivo guardado");
+                    window.location.href = "/cultivos";
                 })
                 .catch(err => {
                     if (err.response) {
@@ -54,49 +133,36 @@ function EditarCultivos() {
                     } else {
                         alert("Error, contacte con el administrador");
                     }
-                    console.log(err);
                 });
-        } if (modo === "agregar") {
-            try {
-
-                axios.post(BASE_URL + "cultivos/new", cultivos, {
-                    headers: {
-                        Authorization: `Bearer ${token.token}`
-                    }
-                })
-                    .then(res => {
-                        console.log(res);
-                        alert("Cultivo guardado");
-                        window.location.href = "/cultivos";
-                    })
-                    .catch(err => {
-                        if (err.response) {
-
-                            alert(err.response.data.message);
-                        } else {
-                            alert("Error, contacte con el administrador");
-                        }
-                    });
-            } catch (error) {
-                console.log(error);
-            }
+        } catch (error) {
+            console.log(error);
         }
-
-    };
+    }
 
     const onInputChange = (e) => {
-        const { name, value } = e.target;
+        
+        if (e.target.name === "imagen") {
+
+            // validar que sea una imagen
+            if (e.target.files[0].type.indexOf("image") === -1) {
+                alert("El archivo no es una imagen");
+                return;
+            }
+            setImagen(e.target.files[0]);
+            setFilename(window.URL.createObjectURL(e.target.files[0]))
+        }
         const cultivo = { ...cultivos };
-        cultivo[name] = value;
+        cultivo[e.target.name] = e.target.value;
         setCultivos(cultivo);
     };
+
     useEffect(() => {
-        
+
         if (modo === "edit") {
-            const id =window.location.pathname.split("/")[3];
+            const id = window.location.pathname.split("/")[3];
             setShowLoading(true);
             // axios.get(BASE_URL + "cultivos/edit?id=" + window.location.href.split("id=")[1], {
-                axios.get(BASE_URL + "cultivos/" +id, {
+            axios.get(BASE_URL + "cultivos/" + id, {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }
@@ -104,6 +170,7 @@ function EditarCultivos() {
                 .then((res) => {
                     console.log(res.data);
                     setCultivos(res.data.cultivos);
+                    setFilename(BASE_URL+'uploads/'+res.data.cultivos.imagen);
                     setShowLoading(false);
                 })
                 .catch((err) => {
@@ -129,11 +196,17 @@ function EditarCultivos() {
 
                             <div className="col-2">
                                 <div className="header_img">
-                                    <img src={Logo} alt="Logo" className="avatar" />
+                                    <img src={filename} alt="Logo" className="avatar" />
                                 </div>
 
-                                <div className="d-flex justify-content-center m-3">
+                                {/* <div className="d-flex justify-content-center m-3">
                                     <button className="btn btn-primary">Cambiar</button>
+                                </div> */}
+                                <div className="custom-input-file btn btn-primary d-flex justify-content-center m-3">
+                                    <input type="file" id="fichero-tarifas" className="input-file" name="imagen"
+                                        onChange={onInputChange} />
+
+                                    Cambiar
                                 </div>
                             </div>
                             <div className="col-10">
@@ -142,6 +215,7 @@ function EditarCultivos() {
                                     <input type="text" id="nombre_cultivo" name="nombre" className="header_text_input" placeholder="Nombre del cultivo" style={{ width: "95%" }}
                                         value={cultivos.nombre}
                                         onChange={onInputChange}
+                                        required
                                     />
 
                                 </div>
@@ -150,6 +224,7 @@ function EditarCultivos() {
                                     <textarea id="descripcion_cultivo" className="header_text_input" name="descripcion" placeholder="Descripción del cultivo" style={{ width: "95%" }}
                                         value={cultivos.descripcion}
                                         onChange={onInputChange}
+                                        required
                                     />
 
                                 </div>

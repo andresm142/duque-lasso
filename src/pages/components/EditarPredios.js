@@ -3,15 +3,17 @@ import { useEffect, useState, Fragment } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import BASE_URL from "../../services/.config";
+import URL_IMAGES from "../../services/.config";
 import Logo from "../logo.png";
+
 
 function EditarPredios(props) {
     const token = JSON.parse(localStorage.getItem('token'));
-
+ 
     const [predios, setPredios] = useState({
         nombre: "",
         descripcion: "",
-        imagen_scr: "",     //Pendiente
+        imagen: "https://lh3.googleusercontent.com/pw/AM-JKLUhM-b5l3b0_y1fLl6SCel-vfZ2Sd1o4XwvkkMxTIvMModGVvOUV175JkZJzWGbxrpj_1BwGUt8AKvw6DRbg21cBUEeP9Ty2T3RaD15AqHVRv3xT5uWZFSNYGluanDg45fJdarKNuCMNH9-E_d7Bv4=w516-h405-no?authuser=0",     //Default
         area: 0,
         latitud: 0,
         longitud: 0
@@ -19,6 +21,8 @@ function EditarPredios(props) {
     });
 
     const [showLoading, setShowLoading] = useState(false);
+    const [imagen, setImagen] = useState(null);
+    const [filename, setFilename] = useState(predios.imagen);
 
     const onCancelar = () => {
         window.history.back();
@@ -26,16 +30,100 @@ function EditarPredios(props) {
 
     const modo = window.location.pathname.split("/")[2];
 
-    const onGuardar = (e) => {
-        if (modo === "edit") {
-            axios.put(BASE_URL + `predios/edit/${predios._id}`, predios, {
+    const onGuardar = async (e) => {
+
+        if (imagen) {
+            // Se sube la imagen
+            const formData = new FormData();
+            console.log(imagen);
+            formData.append("imagen", imagen);
+
+            await axios.post(`${BASE_URL}images/uploads/`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token.token}`,
+                    'Content-Type': 'multipart/form-data'
+
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    setPredios({
+                        ...predios,
+                        imagen: res.data.filename
+                    });
+                    if (modo === "edit") {
+                        editarPredio(res.data.filename);
+                    } else if (modo === "agregar") {
+                        agregarPredio(res.data.filename);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    setShowLoading(false);
+                });
+        }else{
+            if (modo === "edit") {
+                editarPredio(null);
+            } else if (modo === "agregar") {
+                agregarPredio(null);
+            }
+        }
+
+    };
+
+    const editarPredio = (e) => {
+        let data = { ...predios };
+        if (e) {
+            data = {
+                ...predios,
+                imagen: e
+            }
+        }
+
+        console.log(data);
+        // Se actualiza el predio
+        axios.put(BASE_URL + `predios/edit/${predios._id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token.token}`,
+
+            }
+
+        })
+            .then(res => {
+                console.log(res);
+                alert("Predio editado correctamente");
+                window.location.href = "/predios";
+            })
+            .catch(err => {
+                if (err.response) {
+
+                    alert(err.response.data.message);
+                } else {
+                    alert("Error, contacte con el administrador");
+                }
+                console.log(err);
+            });
+    }
+
+    const agregarPredio = (e) => {
+        let data = { ...predios };
+        if (e) {
+            data = {
+                ...predios,
+                imagen: e
+            }
+        }
+
+        try {
+
+            axios.post(BASE_URL + "predios/new", data, {
                 headers: {
                     Authorization: `Bearer ${token.token}`
                 }
             })
                 .then(res => {
                     console.log(res);
-                    alert("Predio editado correctamente");
+                    alert(res.data.message);
                     window.location.href = "/predios";
                 })
                 .catch(err => {
@@ -45,40 +133,33 @@ function EditarPredios(props) {
                     } else {
                         alert("Error, contacte con el administrador");
                     }
-                    console.log(err);
                 });
-        } if (modo === "agregar") {
-            try {
-
-                axios.post(BASE_URL + "predios/new", predios, {
-                    headers: {
-                        Authorization: `Bearer ${token.token}`
-                    }
-                })
-                    .then(res => {
-                        console.log(res);
-                        alert(res.data.message);
-                        window.location.href = "/predios";
-                    })
-                    .catch(err => {
-                        if (err.response) {
-
-                            alert(err.response.data.message);
-                        } else {
-                            alert("Error, contacte con el administrador");
-                        }
-                    });
-            } catch (error) {
-                console.log(error);
-            }
+        } catch (error) {
+            console.log(error);
         }
-    };
 
+    }
+    
     const onInputChange = (e) => {
-        const { name, value } = e.target;
-        const predio = { ...predios };
-        predio[name] = value;
-        setPredios(predio);
+        console.log(filename);
+        console.log(imagen)
+        if (e.target.name === "imagen") {
+
+            // validar que sea una imagen
+            if (e.target.files[0].type.indexOf("image") === -1) {
+                alert("El archivo no es una imagen");
+                return;
+            }
+            setImagen(e.target.files[0]);
+            setFilename(window.URL.createObjectURL(e.target.files[0]))
+
+        } else {
+            setPredios({
+                ...predios,
+                [e.target.name]: e.target.value
+            });
+
+        }
     };
 
     useEffect(() => {
@@ -94,6 +175,9 @@ function EditarPredios(props) {
                 .then(res => {
 
                     setPredios(res.data.predios);
+                   
+                    setFilename(BASE_URL+'uploads/'+res.data.predios.imagen);
+                    console.log(res.data.predios.imagen);
                     if (res.data.message) {
 
                         alert(res.data.message);
@@ -117,11 +201,18 @@ function EditarPredios(props) {
                         <div className="row m-2 detalles_cultivo" >
                             <div className="col-2">
                                 <div className="header_img">
-                                    <img src={Logo} alt="Logo" className="img-fluid" />
+                                    <img src={filename} alt="Logo" className="img-fluid" />
                                 </div>
 
-                                <div className="d-flex justify-content-center m-3">
+                                {/* <div className="d-flex justify-content-center m-3">
                                     <button className="btn btn-primary">Cambiar</button>
+
+                                </div> */}
+                                <div className="custom-input-file btn btn-primary d-flex justify-content-center m-3">
+                                    <input type="file" id="fichero-tarifas" className="input-file" name="imagen"
+                                        onChange={onInputChange} />
+
+                                    Cambiar
                                 </div>
                             </div>
                             <div className="col-md-10">
@@ -255,6 +346,8 @@ function EditarPredios(props) {
                                     </button>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>

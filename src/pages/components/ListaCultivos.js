@@ -52,7 +52,7 @@ function ListaCultivos(props) {
                 <div className="row">
                     <div className="col-md-3 logo">
                         <div className="header_img">
-                            <img src={Logo} alt="logo" />
+                            <img src={`${BASE_URL}uploads/${props.imagen}`} alt="logo" />
                         </div>
                     </div>
 

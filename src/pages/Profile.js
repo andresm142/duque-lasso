@@ -16,6 +16,9 @@ function Profile() {
 
     });
 
+    const [imagen, setImagen] = useState(null);
+    const [filename, setFilename] = useState("");
+
     const [pass, setPass] = useState({
         passActual: "",
         passNuevo: "",
@@ -55,9 +58,19 @@ function Profile() {
     };
 
     const onInputChange = function (evt) {
-        const p = { ...pass };
-        p[evt.target.name] = evt.target.value;
-        setPass(p);
+        if (evt.target.name === "imagen") {
+              // validar que sea una imagen
+              if (evt.target.files[0].type.indexOf("image") === -1) {
+                alert("El archivo no es una imagen");
+                return;
+            }
+            setImagen(evt.target.files[0]);
+            setFilename(window.URL.createObjectURL(evt.target.files[0]))
+        } else {
+            const p = { ...pass };
+            p[evt.target.name] = evt.target.value;
+            setPass(p);
+        }
 
     }
 
@@ -65,6 +78,7 @@ function Profile() {
         evt.preventDefault();
         const datos = { ...datosPerfil };
         const token = JSON.parse(localStorage.getItem('token'));
+
         const body = {
             username: datos.email,
             password: pass.passActual,
@@ -113,7 +127,15 @@ function Profile() {
                 <div className="perfil-container">
                     <div className="titulo-imagen">
                         <p>CONIGURACION DEL PERFIL</p>
-                        <img src={Userlogo} alt="" style={{ width: "150px" }} />
+                        <img src={filename} alt="" style={{ maxWidth: "20%" }} />
+                    </div>
+                    <div className="col-md-12 d-flex justify-content-center">
+                        <div className="custom-input-file btn btn-primary d-flex justify-content-center m-3" style={{ maxWidth: "10%" }}>
+                            <input type="file" id="fichero-tarifas" className="input-file" name="imagen"
+                                onChange={onInputChange} />
+
+                            Cambiar
+                        </div>
                     </div>
                     <div className="perfil-container-form">
                         <form>
@@ -176,21 +198,21 @@ function Profile() {
                                 <div className="col-12">
                                     <div className="form-group">
                                         <label htmlFor="txtPassActual">Contraseña actual</label>
-                                        <input type="text" className="form-control" id="txtPassActual" placeholder="Contraseña actual"
+                                        <input type="password" className="form-control" id="txtPassActual" placeholder="Contraseña actual"
                                             name="passActual" onChange={onInputChange} />
                                     </div>
                                 </div>
                                 <div className="col-12">
                                     <div className="form-group">
                                         <label htmlFor="txtPassNuevo">Contraseña nueva</label>
-                                        <input type="text" className="form-control" id="txtPassNuevo" placeholder="Contraseña nueva"
+                                        <input type="password" className="form-control" id="txtPassNuevo" placeholder="Contraseña nueva"
                                             name="passNuevo" onChange={onInputChange} />
                                     </div>
                                 </div>
                                 <div className="col-12">
                                     <div className="form-group">
                                         <label htmlFor="txtPassNuevoConfirm">Confirmar contraseña</label>
-                                        <input type="text" className="form-control" id="txtPassNuevoConfirm" placeholder="Confirmar contraseña"
+                                        <input type="password" className="form-control" id="txtPassNuevoConfirm" placeholder="Confirmar contraseña"
                                             name="passConfirmar" onChange={onInputChange} />
                                     </div>
                                 </div>

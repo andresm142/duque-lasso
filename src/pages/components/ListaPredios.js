@@ -3,11 +3,13 @@ import { Fragment } from 'react';
 import axios from 'axios';
 import BASE_URL from "../../services/.config";
 
+
 const rolUser = "";
 
 function ListaPredios(props) {
     const token = JSON.parse(localStorage.getItem('token'));
     const rolUser = JSON.parse(localStorage.getItem("datosUser")).rol;
+
 
     const onDetalles = () => {
 
@@ -48,7 +50,7 @@ function ListaPredios(props) {
                 <div className="row">
                     <div className="col-md-3 logo">
                         <div className="header_img">
-                            <img src={Logo} alt="logo" className="img-fluid" />
+                            <img src={`${BASE_URL}uploads/${props.imagen}`} alt="logo" className="img-fluid" />
                         </div>
                     </div>
 

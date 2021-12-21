@@ -15,7 +15,7 @@ function ListaPrediosNoAsignados(props) {
                 <div className="row" style={{ alignItems: "center" }}>
                     <div className="col-md-3 logo ">
                         <div className="header_img">
-                            <img src={Logo} alt="logo" className="img-fluid" />
+                            <img src={`${BASE_URL}uploads/${props.predio.imagen}`} alt="logo" className="img-fluid" />
                         </div>
                     </div>
 

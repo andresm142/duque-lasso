@@ -443,7 +443,7 @@ function Configuracion() {
                                         <div className="row" style={{ alignItems: "center" }}>
                                             <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del predio</label>
                                             <div className="col-4">
-                                                <img src={Logo} alt="" className="img-fluid" />
+                                                <img src={detallePredio.imagen? `${BASE_URL}uploads/${detallePredio.imagen}`:Logo} alt="" className="img-fluid" />
                                             </div>
                                             <div className="col-8">
                                                 <div className="row">
@@ -483,7 +483,7 @@ function Configuracion() {
                                         <div className="row" style={{ alignItems: "center" }}>
                                             <label htmlFor="" className="header_text_label m-2 mt-2">Detalles del usuario</label>
                                             <div className="col-4">
-                                                <img src={LogoUser} alt="" className="img-fluid" />
+                                                <img src={detalleUsuario.imagen? `${BASE_URL}uploads/${detallePredio.imagen}`:LogoUser} alt="" className="img-fluid" />
                                             </div>
                                             <div className="col-8">
                                                 <div className="row">
