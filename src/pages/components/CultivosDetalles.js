@@ -61,7 +61,7 @@ function CultivosDetalles() {
 
                             <div className="col-2">
                                 <div className="header_img">
-                                    <img src={cultivo.imagen} alt="Logo" className="avatar" />
+                                    <img src={`${BASE_URL}uploads/${cultivo.imagen}`} alt="Logo" className="avatar" />
                                 </div>
                             </div>
                             <div className="col-10">
